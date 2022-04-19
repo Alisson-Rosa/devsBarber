@@ -13,12 +13,12 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-sm-6 login-form">
                 <h3>Login</h3>
-                <form>
+                <form th:action="@{/login}" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Email*" value="" />
+                        <input type="text" class="form-control" placeholder="Email*" name="username" value="" />
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Senha*" value="" />
+                        <input type="password" class="form-control" placeholder="Senha*" name="password" value="" />
                     </div>
                     <div class="row">
                             <div class="col-sm-6">
@@ -30,6 +30,13 @@
                     </div>
                     <div class="form-group" >
                         <a href="#" class="ForgetPwd">Esqueceu a senha?</a>
+                    </div>
+                    <div th:if="${param.error}">
+                        Senha ou username invalido!
+                    </div>
+
+                    <div th:if="${param.logout}">
+                        Você está desconectado!
                     </div>
                 </form>
             </div>
