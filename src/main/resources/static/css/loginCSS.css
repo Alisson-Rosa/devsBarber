@@ -23,13 +23,13 @@ body {
 }
 .btnSubmit
 {
-    width: 50%;
     border-radius: 1rem;
     padding: 1.5%;
     border: none;
     cursor: pointer;
 }
 .login-form .btnSubmit{
+    width: 100%;
     font-weight: 600;
     color: #fff;
     background-color: #0062cc;
