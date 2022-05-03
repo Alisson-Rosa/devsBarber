@@ -4,21 +4,21 @@ body {
     background-color: #b2a5a5 !important;
     height: 100vh;
 }
-.login-container{
+.user-container{
     margin-top: 5%;
     margin-bottom: 5%;
 }
-.login-form{
+.user-form{
     padding: 5%;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19) !important;
     background-color: #7a7474;
 }
-.login-form h3{
+.user-form h3{
     text-align: center;
     color: #333;
 }
 
-.login-container form{
+.user-container form{
     padding: 5%;
 }
 .btnSubmit
@@ -28,15 +28,16 @@ body {
     border: none;
     cursor: pointer;
 }
-.login-form .btnSubmit{
+.user-form .btnSubmit{
+    margin-top: 5%;
     width: 100%;
     font-weight: 600;
     color: #fff;
     background-color: #0062cc;
 }
 
-.login-form .link-users{
-    color: #ffffff;
+.user-form .ForgetPwd{
+    color: #0062cc;
     font-weight: 600;
     text-decoration: none;
     width: 100%;
@@ -46,12 +47,17 @@ body {
     margin-bottom: 20px;
 }
 
-.col-sm-6{
-    text-align: center;
-    margin-top: 10px !important;
-    margin-bottom: 10px !important;
+.login-voltar{
+    padding-top: 0 !important;
 }
 
-.user-invalido{
-    margin-top: 10px;
+.form-cadastro{
+    padding-bottom: 10px !important;
+}
+
+.link-login{
+    color: #212529;
+    font-weight: 600;
+    text-decoration: none;
+    width: 100%;
 }

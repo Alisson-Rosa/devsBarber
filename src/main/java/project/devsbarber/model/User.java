@@ -1,5 +1,6 @@
 package project.devsbarber.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -31,10 +32,9 @@ public class User {
     @Column(name="USERNAME")
     private String username;
 
-    @Column(name="BIRTHDATE")
-    private LocalDate birthDate;
-
-    private Date dateConverter;
+    @Column(name = "BIRTHDATE")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private LocalDate birthdate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn (name = "USER_ID"),
@@ -44,13 +44,13 @@ public class User {
     public User (){
     }
 
-    public User(String email, String password, String name, boolean enable, String username,Date dateConverter) {
+    public User(String email, String password, String name, boolean enable, String username, LocalDate birthdate) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.enable = enable;
         this.username = username;
-        this.dateConverter = dateConverter;
+        this.birthdate = birthdate;
     }
 
     public long getId() {
@@ -110,20 +110,11 @@ public class User {
         this.roles = roles;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+    public LocalDate getBirthdate() {
+        return birthdate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public Date getDateConverter() {
-        return dateConverter;
-    }
-
-    public void setDateConverter(Date dateConverter) {
-        this.dateConverter = dateConverter;
-        birthDate = dateConverter.toInstant().atZone(ZoneId.systemDefault() ).toLocalDate();
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
     }
 }

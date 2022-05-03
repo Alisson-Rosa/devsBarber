@@ -10,6 +10,7 @@ import project.devsbarber.model.User;
 import project.devsbarber.repository.RoleRepository;
 import project.devsbarber.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -33,13 +34,14 @@ public class DataLoader implements CommandLineRunner {
         Role adminRole = roleRepository.findByRole("ADMIN");
         Role userRole = roleRepository.findByRole("USER");
 
+        LocalDate date = LocalDate.now();
         User user = new User("admin@code.com", passwordEncoder.encode("password"),
-                "Admin", true, "admin", new Date());
+                "Admin", true, "admin", date);
         user.setRoles(Arrays.asList(adminRole));
         userRepository.save(user);
 
         user = new User("user@code.com", passwordEncoder.encode("password"),
-                "User", true, "user", new Date());
+                "User", true, "user", date);
         user.setRoles(Arrays.asList(userRole));
         userRepository.save(user);
     }

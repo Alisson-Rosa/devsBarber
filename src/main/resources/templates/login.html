@@ -15,30 +15,32 @@
                 <h3>Login</h3>
                 <form th:action="@{/login}" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Email*" name="username" value="" />
+                        <input type="text" class="form-control" placeholder="Usuario" name="username" value="" />
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Senha*" name="password" value="" />
+                        <input type="password" class="form-control" placeholder="Senha" name="password" value="" />
                     </div>
-                    <div class="row">
-                            <div class="col-sm-6">
-                                <input type="submit" class="btnSubmit" value="Login" />
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="submit" class="btnSubmit" value="Cadastrar" />
-                            </div>
-                    </div>
-                    <div class="form-group" >
-                        <a href="#" class="ForgetPwd">Esqueceu a senha?</a>
-                    </div>
-                    <div th:if="${param.error}">
-                        Senha ou username invalido!
-                    </div>
-
-                    <div th:if="${param.logout}">
-                        Você está desconectado!
+                    <div class="form-group">
+                        <input type="submit" class="btnSubmit" value="Login" />
                     </div>
                 </form>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <a class="link-users" href="/users">
+                            Cadastrar
+                        </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#" class="link-users">Esqueceu a senha?</a>
+                    </div>
+                </div>
+                <div th:if="${param.error}" class="user-invalido">
+                    Senha ou usuario invalido!
+                </div>
+
+                <div th:if="${param.logout}">
+                    Você está desconectado!
+                </div>
             </div>
         </div>
     </div>
