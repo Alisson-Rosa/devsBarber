@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import project.devsbarber.repository.UserRepository;
 import project.devsbarber.services.SSUserDetailsService;
 
@@ -19,7 +22,7 @@ import project.devsbarber.services.SSUserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
-    public static BCryptPasswordEncoder passwordEncoder(){
+    public static BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -30,17 +33,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserRepository userRepository;
 
     @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception{
+    public UserDetailsService userDetailsServiceBean() throws Exception {
         return new SSUserDetailsService(userRepository);
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
+    protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/","/h2-console/**").permitAll()
-                .antMatchers("/agenda").permitAll()
+                .antMatchers("/", "/h2-console/**").permitAll()
+                .antMatchers("/agenda").access("hasAuthority('ADMIN')")
                 .antMatchers("/users").permitAll()
                 .antMatchers("/css/**").permitAll()
+                .antMatchers("/img/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 .antMatchers("/admin").access("hasAuthority('ADMIN')")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
@@ -58,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         //Usar sem banco de dados
 //        auth.inMemoryAuthentication()
@@ -73,4 +78,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+            registry.addResourceHandler(
+                            "/webjars/**",
+                            "/img/**",
+                            "/css/**",
+                            "/js/**")
+                    .addResourceLocations(
+                            "classpath:/src/resources/",
+                            "classpath:/static/img/",
+                            "classpath:/static/css/",
+                            "classpath:/static/js/");
+    }
 }

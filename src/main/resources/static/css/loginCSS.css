@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #b2a5a5 !important;
+    background-color: #cfcfcf !important;
     height: 100vh;
 }
 .login-container{
@@ -11,11 +11,11 @@ body {
 .login-form{
     padding: 5%;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19) !important;
-    background-color: #7a7474;
+    background-color: #222222;
+    color: #ffffff;
 }
 .login-form h3{
     text-align: center;
-    color: #333;
 }
 
 .login-container form{
@@ -36,7 +36,6 @@ body {
 }
 
 .login-form .link-users{
-    color: #ffffff;
     font-weight: 600;
     text-decoration: none;
     width: 100%;
@@ -50,6 +49,7 @@ body {
     text-align: center;
     margin-top: 10px !important;
     margin-bottom: 10px !important;
+    color: #ffffff;
 }
 
 .user-invalido{
