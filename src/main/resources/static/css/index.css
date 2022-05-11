@@ -11,3 +11,20 @@
 body{
     background-color: #cfcfcf !important;
 }
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    font-family: 'Bebas Neue', cursive;
+}
+
+.container img{
+    width: 200px;
+    height: 150px;
+}
+
+.container-fluid{
+    font-family: 'Bebas Neue', cursive;
+}
