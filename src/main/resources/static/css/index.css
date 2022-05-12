@@ -28,3 +28,43 @@ body{
 .container-fluid{
     font-family: 'Bebas Neue', cursive;
 }
+
+.footer h3 {
+    text-align: left;
+}
+
+.footer {
+    color: #ffffff;
+}
+
+#foter-first{
+    margin-left: 10%;
+}
+
+.footer-2{
+    color: #c1c1c1;
+}
+.footer p {
+    width: 90%;
+    text-align: left;
+}
+
+.footer-2 p {
+    padding: 10px;
+    margin: 0;
+}
+
+.content {
+    margin: 0 auto;
+    position: relative;
+}
+
+.col-4 {
+    float: left;
+    width: 25%;
+    margin-left: 5%;
+}
+
+#redes-sociais{
+    margin-left: -15px;
+}
