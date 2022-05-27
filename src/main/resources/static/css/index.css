@@ -18,6 +18,21 @@ body{
     justify-content: space-around;
     text-align: center;
     font-family: 'Bebas Neue', cursive;
+    flex-wrap: wrap;
+    align-content: space-between;
+    font-size: 20px;
+}
+
+.fila-2{
+    margin-top: 50px
+}
+
+.col-sm-4 p{
+    margin-bottom: 5px;
+}
+
+.col-sm-4 .btn-primary{
+    width: 200px;
 }
 
 .container img{

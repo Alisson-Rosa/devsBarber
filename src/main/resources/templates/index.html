@@ -53,7 +53,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Início</a></li>
-                    <li><a href="#sobre">Inforamções</a></li>
+                    <li><a href="#sobre">Informações</a></li>
                     <li><a href="#contatos">Contatos</a></li>
                     <li><a href="#" th:if="${user.name} != 'anonymousUser'">Agendar Horário</a></li>
                 </ul>
@@ -122,25 +122,52 @@
         <div class="row">
             <div class="col-sm-12" >
                 <p>A Barbearia Dev's Barber atua dês de 2019 no ramo de cortes de cabelos, barbas e bigodes. Buscando sempre
-                    trazer conforto e praticidade para os seus clientes é disponibilizado esse site para que possa ser realizado
+                    trazer conforto e praticidade para os seus clientes foi disponibilizado esse site para que possa ser realizado
                     os seus agendamentos diretos de casa sem precisar esperar filas e podendo visualizar você mesmo os horários disponives. </p>
             </div>
         </div>
     </div>
 
+    <div class="container-fluid bg-3 text-center">
+        <h3 id="Servicos">Serviços!</h3><br>
+        <div class="row">
+            <div class="col-sm-12" ></div>
+        </div>
+    </div>
 
     <div class="container">
-        <div class="col-sm-3">
-            <p>Barba</p>
-            <img th:src="@{/img/barbaCorte.png}" alt="Image">
+        <div class="col-sm-4">
+            <p>Barba R$ 30,00</p>
+            <img th:src="@{/img/barbaCorte.png}" alt="Image"> <br>
+            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
         </div>
-        <div class="col-sm-3">
-            <p>Cabelo</p>
-            <img th:src="@{/img/cabeloCorte.jpg}" alt="Image">
+
+        <div class="col-sm-4">
+            <p>Cabelo - R$ 30,00</p>
+            <img th:src="@{/img/cabeloCorte.jpg}" alt="Image"> <br>
+            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
         </div>
-        <div class="col-sm-3">
-            <p>Bigode</p>
-            <img th:src="@{/img/bigodeCorte.jpg}" alt="Image">
+
+        <div class="col-sm-4">
+            <p>Bigode - R$ 10,00</p>
+            <img th:src="@{/img/bigodeCorte.jpg}" alt="Image"> <br>
+            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+        </div>
+
+        <div class="col-sm-4 fila-2">
+            <p>Sobrancelha - R$ 20,00</p>
+            <img th:src="@{/img/sobrancelha.png}" alt="Image"> <br>
+            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+        </div>
+        <div class="col-sm-4 fila-2">
+            <p>Cabelo, Barba e Bigode - R$ 60,00</p>
+            <img th:src="@{/img/barbaEcabelo.jpg}" alt="Image"> <br>
+            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+        </div>
+        <div class="col-sm-4 fila-2">
+            <p>Pacote Completo - R$ 70,00</p>
+            <img th:src="@{/img/pacoteCompleto.jpg}" alt="Image"> <br>
+            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
         </div>
     </div>
     <br><br>
@@ -157,7 +184,7 @@
                 <div class="col-4">
                     <h3 id="contatos"><b>Entrar em Contato</b></h3>
                     <p class="local">Brasil, BR - Rua Devs, 15 (Curitiba/PR)<p>
-                    <p class="email">email@email.com - +55 41 7070-7070<p>
+                    <p class="email">email@email.com | +55 41 7070-7070<p>
                     <ul class="nav navbar-nav" id="redes-sociais">
                         <li><a href="#"><img th:src="@{/img/rss.png}" alt="img"> </a></li>
                         <li><a href="#"><img th:src="@{/img/face.png}" alt="img"> </a></li>
