@@ -23,6 +23,12 @@ public class UserService {
             nome = userLogado.toString();
         }
 
-        return userRepository.findByUsername(nome);
+        User user = userRepository.findByUsername(nome);
+        if(user == null) {
+            user = new User();
+            user.setName(nome);
+        }
+
+        return user;
     }
 }
