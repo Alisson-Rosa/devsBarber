@@ -55,7 +55,7 @@
                     <li class="active"><a href="/">Início</a></li>
                     <li><a href="#sobre">Informações</a></li>
                     <li><a href="#contatos">Contatos</a></li>
-                    <li><a href="#" th:if="${user.name} != 'anonymousUser'">Agendar Horário</a></li>
+                    <li><a href="/agenda" th:if="${user.name} != 'anonymousUser'">Agendar Horário</a></li>
                 </ul>
                 <div th:if="${user.name} == 'anonymousUser'">
                     <ul class="nav navbar-nav navbar-right">

@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import project.devsbarber.model.Role;
-import project.devsbarber.model.User;
+import project.devsbarber.model.entities.Role;
+import project.devsbarber.model.entities.User;
 import project.devsbarber.repository.UserRepository;
 
 import javax.transaction.Transactional;
@@ -40,7 +40,7 @@ public class SSUserDetailsService implements UserDetailsService {
     private Set<GrantedAuthority> getAuthories(User user){
         Set<GrantedAuthority> authorities = new HashSet<>();
         for (Role role: user.getRoles()){
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRole());
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getName());
             authorities.add(grantedAuthority);
         }
         return authorities;

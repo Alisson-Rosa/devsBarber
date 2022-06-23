@@ -21,13 +21,14 @@ body {
 .login-container form{
     padding: 5%;
 }
-.btnSubmit
-{
+
+.btnSubmit{
     border-radius: 1rem;
     padding: 1.5%;
     border: none;
     cursor: pointer;
 }
+
 .login-form .btnSubmit{
     width: 100%;
     font-weight: 600;

@@ -1,17 +1,19 @@
-package project.devsbarber.model;
+package project.devsbarber.model.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Table(name = "ROLE")
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="ID", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true)
-    private String role;
+    @Column(name = "NAME", unique = true)
+    private String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Collection <User> users;
@@ -19,8 +21,8 @@ public class Role {
     public Role() {
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String name) {
+        this.name = name;
     }
 
     public long getId() {
@@ -31,12 +33,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getName() {
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Collection<User> getUsers() {

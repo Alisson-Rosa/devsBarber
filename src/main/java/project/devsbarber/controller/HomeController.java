@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import project.devsbarber.model.User;
+import project.devsbarber.model.entities.User;
 import project.devsbarber.repository.UserRepository;
 
 @Controller
@@ -65,6 +64,6 @@ public class HomeController {
         }
 
         model.addAttribute("user",user);
-        return "agenda";
+        return "schedule";
     }
 }

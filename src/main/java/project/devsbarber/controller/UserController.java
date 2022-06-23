@@ -5,13 +5,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import project.devsbarber.model.Role;
-import project.devsbarber.model.User;
+import project.devsbarber.model.entities.Role;
+import project.devsbarber.model.entities.User;
 import project.devsbarber.repository.RoleRepository;
 import project.devsbarber.repository.UserRepository;
 
 import java.util.Arrays;
-import java.util.Date;
 
 @Controller
 public class UserController {
@@ -33,7 +32,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/users")
     public String result(@ModelAttribute User user) {
-        Role userRole = roleRepository.findByRole("USER");
+        Role userRole = roleRepository.getByName("USER");
         user.setRoles(Arrays.asList(userRole));
         userRepository.save(user);
         return "userForm";

@@ -1,0 +1,111 @@
+h1 {
+    color: blue;
+}
+
+.form-select{
+    height: 33px!important;
+}
+
+.col-100 {
+    width: 100%;
+    float: left;
+    position: relative;
+}
+
+body{
+    background-color: #cfcfcf !important;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    font-family: 'Bebas Neue', cursive;
+    flex-wrap: wrap;
+    align-content: space-between;
+    font-size: 20px;
+}
+
+.col-sm-4 p{
+    margin-bottom: 5px;
+}
+
+.col-sm-4 .btn-primary{
+    width: 200px;
+}
+
+.container img{
+    width: 200px;
+    height: 150px;
+}
+
+.container-fluid{
+    font-family: 'Bebas Neue', cursive;
+}
+
+.footer h3 {
+    text-align: left;
+}
+
+.footer {
+    color: #ffffff;
+}
+
+.row{
+    margin: 0px!important;
+}
+
+.row label{
+    text-align: center;
+}
+
+#value{
+    text-align: center;
+}
+
+#foter-first{
+    margin-left: 10%;
+}
+
+.footer-2{
+    color: #c1c1c1;
+}
+.footer p {
+    width: 90%;
+    text-align: left;
+}
+
+.footer-2 p {
+    padding: 10px;
+    margin: 0;
+}
+
+.content {
+    margin: 0 auto;
+    position: relative;
+}
+
+.col-4 {
+    float: left;
+    width: 25%;
+    margin-left: 5%;
+}
+
+#redes-sociais{
+    margin-left: -15px;
+}
+
+.btnSubmit{
+    height: 32px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+
+#row-form-1{
+    margin-bottom: 50px !important;
+}

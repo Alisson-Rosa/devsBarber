@@ -1,4 +1,4 @@
-package project.devsbarber.model;
+package project.devsbarber.model.entities;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,26 +12,27 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USUARIO", uniqueConstraints = @UniqueConstraint(columnNames = "USERNAME"))
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="ID", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name="EMAIL", nullable = false)
     private String email;
 
-    @Column(name="PASSWORD")
+    @Column(name="PASSWORD", nullable = false)
     private String password;
 
-    @Column(name="NAME")
+    @Column(name="NAME", nullable = false)
     private String name;
 
-    @Column(name="ENABLE")
+    @Column(name="ENABLE", nullable = false)
     private boolean enable;
 
-    @Column(name="USERNAME")
+    @Column(name="USERNAME", nullable = false)
     private String username;
 
     @Column(name = "BIRTHDATE")
