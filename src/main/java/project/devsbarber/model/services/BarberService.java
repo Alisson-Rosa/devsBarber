@@ -38,4 +38,17 @@ public class BarberService {
     public Barber saveOrUpdate(Barber barberRegister) {
         return barberRepository.save(barberRegister);
     }
+
+    public Barber get(Long id) {
+        return barberRepository.getById(id);
+    }
+
+    public Barber findByName(String name){
+        return barberRepository.findByName(name);
+    }
+
+    public boolean existUsername(String name) {
+        Barber barber = findByName(name);
+        return barber != null;
+    }
 }

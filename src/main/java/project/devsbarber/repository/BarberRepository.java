@@ -10,4 +10,8 @@ import project.devsbarber.model.entities.Barber;
 public interface BarberRepository extends CrudRepository <Barber, Long> {
 
     Iterable<Barber> findAll();
+
+    Barber getById(Long id);
+
+    Barber findByName(String name);
 }

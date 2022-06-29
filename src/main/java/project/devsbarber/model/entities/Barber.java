@@ -7,7 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "BARBER")
+@Table(name = "BARBER", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME"}))
 public class Barber {
 
     @Id

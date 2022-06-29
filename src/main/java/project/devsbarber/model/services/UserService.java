@@ -45,4 +45,13 @@ public class UserService {
     public List<User> findAll() {
         return (List<User>) userRepository.findAll();
     }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public boolean existUsername(String username) {
+        User user = findByUsername(username);
+        return user != null;
+    }
 }

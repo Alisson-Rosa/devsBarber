@@ -65,41 +65,53 @@
 <div class="container user-container">
     <div class="row col-sm-8">
         <div class="col-sm-12 user-form">
-            <h3>Cadastro Usuario</h3>
-            <form class="form-cadastro" th:action="@{/users}" method="post">
+            <h3>Cadastro Barbeiro</h3>
+            <form class="form-cadastro" th:action="@{/createBarber}" method="post">
 
                 <div class="row row-form">
                     <div class="col-sm-6">
                         <label th:for="name" class="col-sm-12">Nome:</label>
-                        <input type="text" th:field="*{userRegister.name}" placeholder="Seu Nome" class="form-control" required="required">
+                        <input type="text" th:field="*{barberRegister.name}" placeholder="" class="form-control" required="required" style="text-align: center;">
                     </div>
                     <div class="col-sm-6">
-                        <label th:for="nickname" class="col-sm-12">Usuario:</label>
-                        <input type="text" th:field="*{userRegister.username}" placeholder="usuario" class="form-control" required="required">
-                    </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-6">
-                        <label th:for="password" class="col-sm-12">Senha:</label>
-                        <input type="password" th:field="*{userRegister.password}" placeholder="******" class="form-control" required="required">
-                    </div>
-                    <div class="col-sm-6">
-                        <label th:for="email" class="col-sm-12">Email:</label>
-                        <input type="email" th:field="*{userRegister.email}" class="form-control" required="required">
+                        <label th:for="roles" class="col-sm-12">Dia de Folga:</label>
+                        <select th:field="*{barberRegister.dayOff}" class="form-select col-sm-12" required="required">
+                            <option th:value="${barberRegister.dayOff}" th:text="${dayOfWeekBarber.name}"> </option>
+                            <option th:each="enumDay : ${enumDays}" th:value="${enumDay.dayOfWeek}" th:text="${enumDay.name}"></option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="row row-form">
                     <div class="col-sm-6">
-                        <label th:for="birthdate" class="col-sm-12">Data de Nascimento:</label>
-                        <input type="date" th:field="*{userRegister.birthdate}" class="form-control" required="required">
+                        <label th:for="name" class="col-sm-12">Horário Início Expediente:</label>
+                        <select th:field="*{barberRegister.workStartTime}" class="form-select col-sm-12" required="required">
+                            <option th:value="${barberRegister.workStartTime}" th:text="${barberRegister.workStartTime.toString}"> </option>
+                            <option th:each="timeKey : ${timeKeyList}" th:value="${timeKey.time}" th:text="${timeKey.time.toString}"></option>
+                        </select>
                     </div>
                     <div class="col-sm-6">
-                        <label th:for="roles" class="col-sm-12">Role:</label>
-                        <select th:field="*{roleUser}" class="form-select col-sm-12">
-                            <option th:value="${userRegister.role}" th:text="${userRegister.role.name}"> </option>
-                            <option th:each="roleOption : ${roleList}" th:value="${roleOption}" th:text="${roleOption.name}"></option>
+                        <label th:for="roles" class="col-sm-12">Horário Fim Expediente::</label>
+                        <select th:field="*{barberRegister.workEndTime}" class="form-select col-sm-12" required="required">
+                            <option th:value="${barberRegister.workEndTime}" th:text="${barberRegister.workEndTime.toString}"> </option>
+                            <option th:each="timeKey : ${timeKeyList}" th:value="${timeKey.time}" th:text="${timeKey.time.toString}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-6">
+                        <label th:for="name" class="col-sm-12">Horário de Almoço:</label>
+                        <select th:field="*{barberRegister.lunchTime}" class="form-select col-sm-12" required="required">
+                            <option th:value="${barberRegister.lunchTime}" th:text="${barberRegister.lunchTime.toString}"> </option>
+                            <option th:each="timeKey : ${timeKeyList}" th:value="${timeKey.time}" th:text="${timeKey.time.toString}"></option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label th:for="roles" class="col-sm-12">Tempo de Duração do Almoço:</label>
+                        <select th:field="*{barberRegister.lunchDuration}" class="form-select col-sm-12" required="required">
+                            <option th:value="${barberRegister.lunchDuration}" th:text="${barberRegister.lunchDuration.toString}"> </option>
+                            <option th:each="timeKey : ${timeKeyList}" th:value="${timeKey.time}" th:text="${timeKey.time.toString}"></option>
                         </select>
                     </div>
                 </div>

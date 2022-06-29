@@ -86,11 +86,9 @@ public class userRegisterController {
     @RequestMapping(method = RequestMethod.POST, value = "/create")
     public String create(@ModelAttribute User userRegister) throws Exception {//TODO Não está funcionando
         String username = userRegister.getUsername();
-        List<User> users = userService.findAll();//TODO Alterar para findByUsername
-        for (User user : users) {
-            if(user.getUsername().equals(username)){
-                throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
-            }
+        boolean existUsername = userService.existUsername(username);//TODO Alterar para findByUsername
+        if(existUsername){
+            throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
         }
         userService.saveOrUpdate(userRegister);
         return "redirect:/users/userRegister/" + userRegister.getId();

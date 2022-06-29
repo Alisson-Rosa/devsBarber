@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import project.devsbarber.model.entities.Barber;
@@ -62,32 +63,33 @@ public class BarberController {
         return "barberRegister";
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "users/userRegisters/{userId}")
-//    public String usersEdit(final Model model, @PathVariable("userId") Long id) {
-//
-//        User userLogado = userService.getUserLogado();
-//        model.addAttribute("userLogado", userLogado);
-//
-//        User userRegister = userService.getUser(id);
-//        model.addAttribute("userRegister", userRegister);
-//
-//        List<Role> roleList = (List<Role>) roleRepository.findAll();
-//        model.addAttribute("roleList", roleList);
-//
-//        Role role = new Role();
-//        model.addAttribute("roleUser", role);
-//
-//        return "InternalUserEdit";
-//    }
+    @RequestMapping(method = RequestMethod.GET, value = "barbers/barberRegister/{barberId}")
+    public String barberEdit(final Model model, @PathVariable("barberId") Long id) {
+
+        User userLogado = userService.getUserLogado();
+        model.addAttribute("userLogado", userLogado);
+
+        Barber barberRegister = barberService.get(id);
+        model.addAttribute("barberRegister", barberRegister);
+
+        EnumDays[] enumDays = EnumDays.enumDaysAll();
+        model.addAttribute("enumDays", enumDays);
+
+        EnumDays dayOfWeekBarber = EnumDays.getEnumToDayOfWeek(barberRegister.getDayOff());
+        model.addAttribute("dayOfWeekBarber", dayOfWeekBarber);
+
+        List<TimeKey> timeKeyList = timeKeyService.findAll();
+        model.addAttribute("timeKeyList", timeKeyList);
+
+        return "barberEdit";
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/createBarber")
     public String createBarber(@ModelAttribute Barber barberRegister) throws Exception {
         String name = barberRegister.getName();
-        List<Barber> barberList = barberService.findAll();
-        for (Barber barber : barberList) {
-            if(barber.getName().equals(name)){
-                throw new Exception("Nome de usuario já cadastrado");
-            }
+        boolean existUsername = barberService.existUsername(name);//TODO Alterar para findByUsername
+        if(existUsername){
+            throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
         }
         barberService.saveOrUpdate(barberRegister);
         return "redirect:/barbers/barberRegister/" + barberRegister.getId();
