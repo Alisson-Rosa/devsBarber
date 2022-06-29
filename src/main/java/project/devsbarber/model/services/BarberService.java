@@ -30,4 +30,12 @@ public class BarberService {
 
         return barberList;
     }
+
+    public List<Barber> findAll() {
+        return (List<Barber>) barberRepository.findAll();
+    }
+
+    public Barber saveOrUpdate(Barber barberRegister) {
+        return barberRepository.save(barberRegister);
+    }
 }

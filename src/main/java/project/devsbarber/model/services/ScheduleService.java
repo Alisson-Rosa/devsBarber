@@ -14,26 +14,26 @@ public class ScheduleService {
 
     ScheduleRepository scheduleRepository;
 
-    public List<Integer> findMapByFiltro(Barber barber, Cut cut){ //pegar os horários disponíveis
+    public List<Long> findMapByFiltro(Barber barber, Cut cut){ //pegar os horários disponíveis
 
         long barberId = barber.getId();
 
         List<Schedule> scheduleList = scheduleRepository.findByBarber(barberId);
-        Map<Long, List<Integer>> map = new HashMap<>();
+        Map<Long, List<Long>> map = new HashMap<>();
 
         for (Schedule schedule : scheduleList) { //Colocar horários em um map de id chave sendo o corte e valores os pedaços de tempo
 
             Cut cutClient = schedule.getCut();
             Long cutId = cutClient.getId();
             TimeKey timeKey = schedule.getTimeKey();
-            Integer key = timeKey.getKey();
+            long key = timeKey.getKey();
 
             if(!map.containsKey(cutId)){
-                List<Integer> list = new ArrayList<>();
+                List<Long> list = new ArrayList<>();
                 list.add(key);
                 map.put(cutId, list);
             } else {
-                List<Integer> list = map.get(cutId);
+                List<Long> list = map.get(cutId);
                 list.add(key);
                 map.replace(cutId, list);
             }
@@ -51,10 +51,10 @@ public class ScheduleService {
         }
 
         Integer sizeCut = cut.getSize();
-        List<Integer> unavailableHours = new ArrayList<>();
+        List<Long> unavailableHours = new ArrayList<>();
         for (TimeKeyCutVo voFinal : vos) {
-            List<Integer> timeKeys = voFinal.getTimeKeys();
-            Integer firstTime = timeKeys.get(0);
+            List<Long> timeKeys = voFinal.getTimeKeys();
+            long firstTime = timeKeys.get(0);
 
             unavailableHours = validateStartValues(sizeCut, firstTime);
             timeKeys.addAll(unavailableHours);
@@ -63,8 +63,8 @@ public class ScheduleService {
         return unavailableHours;
     }
 
-    private static List<Integer> validateStartValues(Integer tamanhoCorte, Integer first) {
-        List <Integer> list = new ArrayList<>();
+    private static List<Long> validateStartValues(Integer tamanhoCorte, Long first) {
+        List <Long> list = new ArrayList<>();
 
         for(int i=0; i<tamanhoCorte-1; i++){
             first -= 1;
@@ -77,7 +77,7 @@ public class ScheduleService {
 
 class TimeKeyCutVo {
     Long cudtId;
-    List<Integer> timeKeys;
+    List<Long> timeKeys;
 
     public Long getCudtId() {
         return cudtId;
@@ -87,11 +87,11 @@ class TimeKeyCutVo {
         this.cudtId = cutId;
     }
 
-    public List<Integer> getTimeKeys() {
+    public List<Long> getTimeKeys() {
         return timeKeys;
     }
 
-    public void setTimeKeys(List<Integer> timeKeys) {
+    public void setTimeKeys(List<Long> timeKeys) {
         this.timeKeys = timeKeys;
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import project.devsbarber.model.entities.User;
 import project.devsbarber.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -30,5 +32,17 @@ public class UserService {
         }
 
         return user;
+    }
+
+    public User getUser(Long id) {
+        return userRepository.getById(id);
+    }
+
+    public User saveOrUpdate(User userRegister) {
+        return userRepository.save(userRegister);
+    }
+
+    public List<User> findAll() {
+        return (List<User>) userRepository.findAll();
     }
 }

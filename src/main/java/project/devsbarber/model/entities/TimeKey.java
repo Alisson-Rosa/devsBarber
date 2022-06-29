@@ -1,5 +1,7 @@
 package project.devsbarber.model.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,16 +14,17 @@ public class TimeKey {
 
     @Id
     @Column(name = "KEY", nullable = false)
-    private Integer key;
+    private long key;
 
     @Column(name = "TIME", nullable = false)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime time;
 
-    public Integer getKey() {
+    public long getKey() {
         return key;
     }
 
-    public void setKey(Integer key) {
+    public void setKey(long key) {
         this.key = key;
     }
 

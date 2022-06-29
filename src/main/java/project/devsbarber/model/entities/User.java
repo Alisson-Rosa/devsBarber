@@ -7,9 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Collection;
-import java.util.Date;
 
 @Entity
 @Table(name = "USUARIO", uniqueConstraints = @UniqueConstraint(columnNames = "USERNAME"))
@@ -39,10 +37,11 @@ public class User implements UserDetails {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthdate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn (name = "USER_ID"),
-                inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    @ManyToOne
+    @JoinTable( name = "USER_ROLE",
+                joinColumns = {@JoinColumn (name = "USER_ID")},
+                inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
+    private Role role;
 
     public User (){
     }
@@ -130,12 +129,12 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public LocalDate getBirthdate() {

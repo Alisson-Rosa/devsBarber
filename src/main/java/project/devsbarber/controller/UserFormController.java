@@ -1,19 +1,18 @@
 package project.devsbarber.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import project.devsbarber.model.entities.Role;
 import project.devsbarber.model.entities.User;
 import project.devsbarber.repository.RoleRepository;
 import project.devsbarber.repository.UserRepository;
 
-import java.util.Arrays;
-
 @Controller
-public class UserController {
+public class UserFormController {
 
     @Autowired
     UserRepository userRepository;
@@ -21,24 +20,21 @@ public class UserController {
     @Autowired
     RoleRepository roleRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @RequestMapping(method = RequestMethod.GET, value = "/users")
+    @RequestMapping(method = RequestMethod.GET, value = "/userForm")
     public String usersForm(final Model model) {
         model.addAttribute("user", new User());
         return "userForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/users")
+    @RequestMapping(method = RequestMethod.POST, value = "/userFormRegister")
     public String result(@ModelAttribute User user) {
         Role userRole = roleRepository.getByName("USER");
-        user.setRoles(Arrays.asList(userRole));
+        user.setRole(userRole);
         userRepository.save(user);
-        return "userForm";
+        return "redirect:/userForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/loginVoltar")
+    @RequestMapping(method = RequestMethod.GET, value = "/loginVoltar")
     public String Voltar() {
         return "login";
     }

@@ -22,15 +22,6 @@ import java.util.List;
 public class ScheduleController {
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    BarberRepository barberRepository;
-
-    @Autowired
-    private CutRepository cutRepository;
-
-    @Autowired
     private ScheduleService scheduleService;
 
     @Autowired
@@ -42,7 +33,7 @@ public class ScheduleController {
     @Autowired
     CutService cutService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/agenda")
+    @RequestMapping(method = RequestMethod.GET, value = "/schedule")
     public String agendaForm(final Model model) {
 
         User user = userService.getUserLogado();
@@ -57,7 +48,7 @@ public class ScheduleController {
 
         Barber barber = new Barber();
         Cut cut = new Cut();
-        List<Integer> unavailableHours = scheduleService.findMapByFiltro(barber, cut);
+        List<Long> unavailableHours = scheduleService.findMapByFiltro(barber, cut); //Usar resultado para filtrar na tabela os horários disponiveis
 
         Schedule schedule = new Schedule();
         model.addAttribute("schedule", schedule);

@@ -13,7 +13,7 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-sm-6 user-form">
                 <h3>Faça o seu Cadastro</h3>
-                <form class="form-cadastro" th:action="@{/users}" th:object="${user}" method="post">
+                <form class="form-cadastro" th:action="@{/userFormRegister}" th:object="${user}" method="post">
 
                     <div class="form-group">
                         <label th:for="name" class="col-sm-6">Nome:</label>
@@ -36,13 +36,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label th:for="birthdate" class="col-sm-6">BirthDate:</label>
+                        <label th:for="birthdate" class="col-sm-6">Data de Nascimento:</label>
                         <input type="date" th:field="*{birthdate}" class="form-control" required="required">
                     </div>
 
                     <div class="form-group">
                         <label>Concordo com os termos de serviço</label>
-                        <input type="checkbox" th:field="*{enable}" required="required">
+                        <input type="checkbox" th:field="*{enable}" th:val required="required">
                     </div>
 
                     <div class="row">

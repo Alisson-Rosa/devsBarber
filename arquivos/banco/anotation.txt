@@ -1,0 +1,5 @@
+#Ideia Escala Barbeiros = Apontar horarios invalidos para tabela de timetable_barbers (escala dos barbeiros).
+- Quando for cadastrar o barbeiro incluir atributos de inicio e fim de expedinte, pegar horário inicio pela chave horario
+e fazer um for preenchendo e salvando os horários até a chave horario de fim de expediente
+- Também criar atributo de almoço e tempo de almoço, quando estiver no for de interação do horario de expediente validar
+quando inicia o almoço, e acrescentar o tempo de almoço para continuar incrementando expediente

@@ -1,5 +1,8 @@
 package project.devsbarber.model.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -15,7 +18,8 @@ public class Role {
     @Column(name = "NAME", unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role")
+    @Fetch(FetchMode.JOIN)
     private Collection <User> users;
 
     public Role() {
