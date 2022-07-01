@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import project.devsbarber.model.entities.User;
 import project.devsbarber.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -54,4 +57,13 @@ public class UserService {
         User user = findByUsername(username);
         return user != null;
     }
+
+    public void deleteByid(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public long countUsers() {
+        return userRepository.count();
+    }
+
 }

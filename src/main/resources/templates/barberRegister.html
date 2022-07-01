@@ -50,7 +50,8 @@
                 <li><a href="#sobre">Informações</a></li>
                 <li><a href="#contatos">Contatos</a></li>
                 <li><a href="#" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
-                <li class="active"><a href="#" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
+                <li><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
+                <li class="active"><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
             </ul>
             <div th:if="${userLogado.name} != 'anonymousUser'">
                 <ul class="nav navbar-nav navbar-right">
@@ -66,7 +67,7 @@
     <div class="row col-sm-8">
         <div class="col-sm-12 user-form">
             <h3>Cadastro Barbeiro</h3>
-            <form class="form-cadastro" th:action="@{/createBarber}" method="post">
+            <form class="form-cadastro" th:action="@{/barbers/barberRegister/createBarber}" method="post">
 
                 <div class="row row-form">
                     <div class="col-sm-6">
@@ -77,7 +78,7 @@
                         <label th:for="roles" class="col-sm-12">Dia de Folga:</label>
                         <select th:field="*{barberRegister.dayOff}" class="form-select col-sm-12" required="required">
                             <option value=""> </option>
-                            <option th:each="enumDay : ${enumDays}" th:value="${enumDay.dayOfWeek}" th:text="${enumDay.name}"></option>
+                            <option th:each="enumDay : ${enumDays}" th:value="${enumDay}" th:text="${enumDay.name}"></option>
                         </select>
                     </div>
                 </div>

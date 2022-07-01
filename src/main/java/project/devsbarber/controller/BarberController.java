@@ -14,12 +14,10 @@ import project.devsbarber.model.entities.User;
 import project.devsbarber.model.enums.EnumDays;
 import project.devsbarber.model.services.BarberService;
 import project.devsbarber.model.services.TimeKeyService;
-import project.devsbarber.model.dto.TimeKeyStringDTO;
 import project.devsbarber.model.services.UserService;
 import project.devsbarber.repository.RoleRepository;
+import project.devsbarber.util.UtilProject;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,11 +26,15 @@ public class BarberController {
     @Autowired RoleRepository roleRepository;
     @Autowired UserService userService;
     @Autowired BarberService barberService;
-    @Autowired
-    TimeKeyService timeKeyService;
+    @Autowired TimeKeyService timeKeyService;
 
     @RequestMapping(value = "/barbers")
-    public String users(final Model model) {
+    public String usersIndex(){
+        return "redirect:/barbers/1";
+    }
+
+    @RequestMapping(value = "/barbers/{pageId}")
+    public String users(final Model model, @PathVariable Long pageId) {
 
         User userLogado = userService.getUserLogado();
         model.addAttribute("userLogado", userLogado);
@@ -40,8 +42,24 @@ public class BarberController {
         User userRegister = new User();
         model.addAttribute("userRegister", userRegister);
 
-        List<Role> roleList = (List<Role>) roleRepository.findAll();
-        model.addAttribute("roleList", roleList);
+        List<Barber> barberList = barberService.findAll(); //TODO alterar query com limit de 30 / agrupar para fazer paginação
+        model.addAttribute("barberList", barberList);
+
+        long countBarbers = barberService.countBarbers();
+        model.addAttribute("countBarber", countBarbers);
+
+        List<Long> countPaginasList = UtilProject.countPaginasList(countBarbers);
+        model.addAttribute("countPaginasList", countPaginasList);
+
+        Long currentPage = pageId;
+        Long previousPage = pageId - 1;
+        Long nextPage = pageId + 1;
+        int finalPage = countPaginasList.size();
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("previousPage", previousPage);
+        model.addAttribute("nextPage", nextPage);
+        model.addAttribute("finalPage", finalPage);
+
         return "barbers";
     }
 
@@ -75,16 +93,13 @@ public class BarberController {
         EnumDays[] enumDays = EnumDays.enumDaysAll();
         model.addAttribute("enumDays", enumDays);
 
-        EnumDays dayOfWeekBarber = EnumDays.getEnumToDayOfWeek(barberRegister.getDayOff());
-        model.addAttribute("dayOfWeekBarber", dayOfWeekBarber);
-
         List<TimeKey> timeKeyList = timeKeyService.findAll();
         model.addAttribute("timeKeyList", timeKeyList);
 
         return "barberEdit";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/createBarber")
+    @RequestMapping(method = RequestMethod.POST, value = "barbers/barberRegister/createBarber")
     public String createBarber(@ModelAttribute Barber barberRegister) throws Exception {
         String name = barberRegister.getName();
         boolean existUsername = barberService.existUsername(name);//TODO Alterar para findByUsername
@@ -93,5 +108,24 @@ public class BarberController {
         }
         barberService.saveOrUpdate(barberRegister);
         return "redirect:/barbers/barberRegister/" + barberRegister.getId();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "barbers/barberRegister/edit/{barberId}")
+    public String barberEditResult(@ModelAttribute Barber barberEdit, @PathVariable("barberId") Long id){
+        barberEdit.setId(id);
+        barberService.saveOrUpdate(barberEdit);
+        return "redirect:/barbers/barberRegister/" + barberEdit.getId();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "barbers/delete/{barberId}")
+    public String deleteBarber(@PathVariable("barberId") Long id) {
+
+        try{
+            barberService.deleteByid(id);
+        } catch (Exception e){
+            throw e; //TODO alterar para mensagem na tela
+        }
+
+        return "redirect:/barbers";
     }
 }

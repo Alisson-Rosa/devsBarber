@@ -1,8 +1,15 @@
+html, body{
+    height: 100%;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
     color: #566787;
     font-size: 13px;
     background-color: #cfcfcf !important;
 }
+
 .table-wrapper {
     background: #fff;
     border-radius: 3px;
@@ -95,7 +102,7 @@ table.table .avatar {
     margin-right: 10px;
 }
 .pagination {
-    float: right;
+    /*float: right;*/
     margin: 0 0 5px;
 }
 .pagination li a {
@@ -219,6 +226,7 @@ table.table .avatar {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
+    height: 100% !important;;
 }
 
 #row-title{
@@ -262,6 +270,7 @@ h1 {
 }
 
 .footer {
+    flex-shrink: 0;
     color: #ffffff;
 }
 
@@ -330,7 +339,15 @@ h1 {
 .clearfix{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     background-color: #cfcfcf !important
+}
+
+.column-actions{
+    text-align: center;
+}
+
+.group-pagination{
+    float: right;
 }

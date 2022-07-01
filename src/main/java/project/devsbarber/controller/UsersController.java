@@ -1,6 +1,5 @@
 package project.devsbarber.controller;
 
-import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +11,12 @@ import project.devsbarber.model.entities.Role;
 import project.devsbarber.model.entities.User;
 import project.devsbarber.model.services.UserService;
 import project.devsbarber.repository.RoleRepository;
+import project.devsbarber.util.UtilProject;
 
 import java.util.List;
 
 @Controller
-public class userRegisterController {
+public class UsersController {
 
     @Autowired
     RoleRepository roleRepository;
@@ -25,7 +25,12 @@ public class userRegisterController {
     UserService userService;
 
     @RequestMapping(value = "/users")
-    public String users(final Model model) {
+    public String usersIndex(){
+        return "redirect:/users/1";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{pageId}")
+    public String users(final Model model, @PathVariable Long pageId) {
 
         User userLogado = userService.getUserLogado();
         model.addAttribute("userLogado", userLogado);
@@ -33,8 +38,28 @@ public class userRegisterController {
         User userRegister = new User();
         model.addAttribute("userRegister", userRegister);
 
-        List<Role> roleList = (List<Role>) roleRepository.findAll();
-        model.addAttribute("roleList", roleList);
+//        List<Role> roleList = (List<Role>) roleRepository.findAll();
+//        model.addAttribute("roleList", roleList);
+
+        List<User> userList = userService.findAll(); //TODO alterar query com limit de 30 / agrupar para fazer paginação
+        model.addAttribute("userList", userList);
+
+        long countUsers = userService.countUsers();
+        model.addAttribute("countUser", countUsers);
+
+        List<Long> countPaginasList = UtilProject.countPaginasList(countUsers);
+        model.addAttribute("countPaginasList", countPaginasList);
+
+        Long currentPage = pageId;
+        Long previousPage = pageId - 1;
+        Long nextPage = pageId + 1;
+        int finalPage = countPaginasList.size();
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("previousPage", previousPage);
+        model.addAttribute("nextPage", nextPage);
+        model.addAttribute("finalPage", finalPage);
+
+
         return "users";
     }
 
@@ -72,7 +97,7 @@ public class userRegisterController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit/{userId}")
-    public String userEdit(@ModelAttribute User userRegister, @ModelAttribute Role userRole, @PathVariable("userId") Long id){
+    public String userEditResult(@ModelAttribute User userRegister, @ModelAttribute Role userRole, @PathVariable("userId") Long id){
         userRegister.setId(id);
         if(userRegister.getRole() != userRole){
             userRegister.setRole(userRole);
@@ -92,5 +117,17 @@ public class userRegisterController {
         }
         userService.saveOrUpdate(userRegister);
         return "redirect:/users/userRegister/" + userRegister.getId();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "users/delete/{userId}")
+    public String deleteBarber(@PathVariable("userId") Long id) {
+
+        try{
+            userService.deleteByid(id);
+        } catch (Exception e){
+            throw e; //TODO alterar para mensagem na tela
+        }
+
+        return "redirect:/users";
     }
 }

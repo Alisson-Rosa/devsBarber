@@ -1,6 +1,7 @@
 package project.devsbarber.model.entities;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import project.devsbarber.model.enums.EnumDays;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
@@ -19,7 +20,7 @@ public class Barber {
     private String name;
 
     @Column(name = "DAYOFF", nullable = false)
-    private DayOfWeek dayOff;
+    private EnumDays dayOff;
 
     @Column(name = "WORK_START_TIME", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
@@ -53,11 +54,11 @@ public class Barber {
         this.name = name;
     }
 
-    public DayOfWeek getDayOff() {
+    public EnumDays getDayOff() {
         return dayOff;
     }
 
-    public void setDayOff(DayOfWeek dayoff) {
+    public void setDayOff(EnumDays dayoff) {
         this.dayOff = dayoff;
     }
 

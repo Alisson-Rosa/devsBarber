@@ -47,8 +47,9 @@
                         <li><a href="/">Início</a></li>
                         <li><a href="#sobre">Informações</a></li>
                         <li><a href="#contatos">Contatos</a></li>
-                        <li><a href="#" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
-                        <li class="active"><a href="#" th:if="${userLogado.role} == 'ADMIN'">Usuários</a></li>
+                        <li><a th:href="@{/schedule}" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
+                        <li class="active"><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
+                        <li><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
                     </ul>
                     <div th:if="${userLogado.name} != 'anonymousUser'">
                         <ul class="nav navbar-nav navbar-right">
@@ -82,79 +83,46 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th>Telefone</th>
-                            <th>Endereço</th>
+                            <th>Ativo</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="column-id">1</td>
-                            <td>Thomas Hardy</td>
-                            <td>thomashardy@mail.com</td>
-                            <td>89 Chiaroscuro Rd, Portland, USA</td>
-                            <td>(171) 555-2222</td>
-                            <td>
-                                <a href="users/userRegister/1" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="column-id">2</td>
-                            <td>Dominique Perrier</td>
-                            <td>dominiqueperrier@mail.com</td>
-                            <td>Obere Str. 57, Berlin, Germany</td>
-                            <td>(313) 555-5735</td>
-                            <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="column-id">3</td>
-                            <td>Maria Anders</td>
-                            <td>mariaanders@mail.com</td>
-                            <td>25, rue Lauriston, Paris, France</td>
-                            <td>(503) 555-9931</td>
-                            <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="column-id">4</td>
-                            <td>Fran Wilson</td>
-                            <td>franwilson@mail.com</td>
-                            <td>C/ Araquil, 67, Madrid, Spain</td>
-                            <td>(204) 619-5731</td>
-                            <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="column-id">5</td>
-                            <td>Martin Blank</td>
-                            <td>martinblank@mail.com</td>
-                            <td>Via Monte Bianco 34, Turin, Italy</td>
-                            <td>(480) 631-2097</td>
-                            <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        <tr th:each="user : ${userList}">
+                            <td class="column-id" th:text="${user.id}">id</td>
+                            <td th:text="${user.name}" >Nome</td>
+                            <td th:text="${user.email}" >Email</td>
+                            <td th:text="${user.role.name}">Role</td>
+                            <td th:text="${user.telephone}">Telefone</td>
+                            <td th:text="${user.enable}">ATIVO</td>
+                            <td class="column-actions">
+                                <a th:href="@{userRegister/{id}(id=${user.id})}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+                                <a th:href="@{delete/{id}(id=${user.id})}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Deletar">&#xE872;</i></a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text col-sm-6"><b>5</b> de <b>25</b> usuários</div>
+                    <div class="hint-text col-sm-6"><b>
+                        <label th:text="${countUser}"/>
+                    </b> de <b>
+                        <label th:text="${countUser}"/>
+                    </b> usuários</div>
                     <div class="col-sm-6">
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item"><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                        </ul>
+                        <div class="group-pagination">
+                            <ul class="pagination">
+                                <li class="page-item disabled" th:if="${previousPage} < 1"><a>Previous</a></li>
+                                <li class="page-item" th:if="${previousPage} >= 1"><a th:href="@{{id}(id=${previousPage})}">Previous</a></li>
+                            </ul>
+                            <ul class="pagination" th:each="countPagina : ${countPaginasList}">
+                                <li class="page-item active" th:if="${currentPage} == ${countPagina}"><a class="page-link" th:text="${countPagina}">page</a></li>
+                                <li class="page-item" th:if="${currentPage} != ${countPagina}"><a class="page-link" th:href="@{{id}(id=${countPagina})}" th:text="${countPagina}">page</a></li>
+                            </ul>
+                            <ul class="pagination">
+                                <li class="page-item disabled" th:if="${nextPage} > ${finalPage}"><a class="page-link">Next</a></li>
+                                <li class="page-item" th:if="${nextPage} <= ${finalPage}"><a class="page-link" th:href="@{{id}(id=${nextPage})}">Next</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

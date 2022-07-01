@@ -21,6 +21,9 @@ public class User implements UserDetails {
     @Column(name="EMAIL", nullable = false)
     private String email;
 
+    @Column(name="TELEPHONE", nullable = false)
+    private String telephone;
+
     @Column(name="PASSWORD", nullable = false)
     private String password;
 
@@ -46,13 +49,14 @@ public class User implements UserDetails {
     public User (){
     }
 
-    public User(String email, String password, String name, boolean enable, String username, LocalDate birthdate) {
+    public User(String email, String password, String name, boolean enable, String username, LocalDate birthdate, String telephone) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.enable = enable;
         this.username = username;
         this.birthdate = birthdate;
+        this.telephone = telephone;
     }
 
     public long getId() {
@@ -143,5 +147,13 @@ public class User implements UserDetails {
 
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 }

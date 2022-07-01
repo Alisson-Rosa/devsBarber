@@ -21,7 +21,7 @@ public class BarberService {
 
         List<Barber> barberList = new ArrayList<>();
         for (Barber barber : barberListAll) {
-            DayOfWeek dayOff = barber.getDayOff();
+            DayOfWeek dayOff = barber.getDayOff().getDayOfWeek();
             DayOfWeek dateSchedule = date.getDayOfWeek();
             if(!dayOff.equals(dateSchedule)){
                 barberList.add(barber);
@@ -50,5 +50,13 @@ public class BarberService {
     public boolean existUsername(String name) {
         Barber barber = findByName(name);
         return barber != null;
+    }
+
+    public void deleteByid(Long id){
+        barberRepository.deleteById(id);
+    }
+
+    public long countBarbers() {
+        return barberRepository.count();
     }
 }
