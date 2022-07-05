@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "TIMETABLE_BARBERS", uniqueConstraints = @UniqueConstraint(columnNames = {"BARBER_ID", "TIME_KEY_ID"}))
-public class timetableBarbers {
+public class TimetableBarbers {
 
     @Id
     @Column(name="ID", unique = true, nullable = false)

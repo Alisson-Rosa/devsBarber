@@ -1,6 +1,9 @@
 package project.devsbarber.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import project.devsbarber.model.entities.Role;
 import project.devsbarber.model.entities.User;
 import project.devsbarber.model.services.UserService;
-import project.devsbarber.repository.RoleRepository;
-import project.devsbarber.util.UtilProject;
+import project.devsbarber.model.repository.RoleRepository;
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/users/{pageId}")
-    public String users(final Model model, @PathVariable Long pageId) {
+    public String users(final Model model, @PathVariable int pageId) {
 
         User userLogado = userService.getUserLogado();
         model.addAttribute("userLogado", userLogado);
@@ -38,22 +40,20 @@ public class UsersController {
         User userRegister = new User();
         model.addAttribute("userRegister", userRegister);
 
-//        List<Role> roleList = (List<Role>) roleRepository.findAll();
-//        model.addAttribute("roleList", roleList);
+        Page<User> usersPagination = userService.paginationUser(PageRequest.of(pageId - 1, 15, Sort.Direction.DESC, "username"));
+        List<User> userList = usersPagination.getContent();
+        long countUserTotal = usersPagination.getTotalElements();
+        int totalPages = usersPagination.getTotalPages();
+        int countUserPage = usersPagination.getNumberOfElements();
+        int currentPage = usersPagination.getNumber() + 1;
+        int previousPage = currentPage - 1;
+        int nextPage = currentPage + 1;
+        int finalPage = totalPages;
 
-        List<User> userList = userService.findAll(); //TODO alterar query com limit de 30 / agrupar para fazer paginação
         model.addAttribute("userList", userList);
-
-        long countUsers = userService.countUsers();
-        model.addAttribute("countUser", countUsers);
-
-        List<Long> countPaginasList = UtilProject.countPaginasList(countUsers);
-        model.addAttribute("countPaginasList", countPaginasList);
-
-        Long currentPage = pageId;
-        Long previousPage = pageId - 1;
-        Long nextPage = pageId + 1;
-        int finalPage = countPaginasList.size();
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("countUserTotal", countUserTotal);
+        model.addAttribute("countUserPage", countUserPage);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("previousPage", previousPage);
         model.addAttribute("nextPage", nextPage);
@@ -102,19 +102,23 @@ public class UsersController {
         if(userRegister.getRole() != userRole){
             userRegister.setRole(userRole);
         }
-        User user = userService.getUser(id);
-        user.setBirthdate(userRegister.getBirthdate());
-        userService.saveOrUpdate(user);
+        if(userRegister.getBirthdate() == null) {
+            User user = userService.getUser(id);
+            userRegister.setBirthdate(user.getBirthdate());
+        }
+        userService.saveOrUpdate(userRegister);
         return "redirect:/users/userRegister/" + userRegister.getId();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/create")
-    public String create(@ModelAttribute User userRegister) throws Exception {//TODO Não está funcionando
+    @RequestMapping(method = RequestMethod.POST, value = "users/create")
+    public String create(@ModelAttribute User userRegister, @ModelAttribute Role userRole) throws Exception {
+        userRegister.setRole(userRole);
         String username = userRegister.getUsername();
-        boolean existUsername = userService.existUsername(username);//TODO Alterar para findByUsername
+        boolean existUsername = userService.existUsername(username);
         if(existUsername){
             throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
         }
+        userRegister.setTelephone("41 99999-999");
         userService.saveOrUpdate(userRegister);
         return "redirect:/users/userRegister/" + userRegister.getId();
     }

@@ -5,19 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import project.devsbarber.model.entities.Barber;
-import project.devsbarber.model.entities.Role;
-import project.devsbarber.model.entities.TimeKey;
-import project.devsbarber.model.entities.User;
+import project.devsbarber.model.entities.*;
 import project.devsbarber.model.enums.EnumDays;
-import project.devsbarber.repository.BarberRepository;
-import project.devsbarber.repository.RoleRepository;
-import project.devsbarber.repository.TimeKeyRepository;
-import project.devsbarber.repository.UserRepository;
+import project.devsbarber.model.enums.TypeCut;
+import project.devsbarber.model.repository.*;
+import project.devsbarber.model.services.TimetableBarbersService;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -26,6 +23,9 @@ public class DataLoader implements CommandLineRunner {
     @Autowired RoleRepository roleRepository;
     @Autowired TimeKeyRepository timeKeyRepository;
     @Autowired BarberRepository barberRepository;
+    @Autowired CutRepository cutRepository;
+
+    @Autowired TimetableBarbersService timetableBarbersService;
     @Autowired private BCryptPasswordEncoder passwordEncoder;
 
 
@@ -33,8 +33,10 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         roleRepository.save(new Role("CLIENT"));
         roleRepository.save(new Role("ADMIN"));
+        roleRepository.save(new Role("ADMIN2"));
 
         Role adminRole = roleRepository.getByName("ADMIN");
+        Role adminTwoRole = roleRepository.getByName("ADMIN2");
         Role clientRole = roleRepository.getByName("CLIENT");
 
         LocalDate date = LocalDate.now();
@@ -48,7 +50,13 @@ public class DataLoader implements CommandLineRunner {
         user.setRole(clientRole);
         userRepository.save(user);
 
+        user = new User("Teste@code.com", passwordEncoder.encode("password"),
+                "Teste", true, "TESTE", date, "(41) 99741-5901");
+        user.setRole(adminTwoRole);
+        userRepository.save(user);
+
         LocalTime localTime = LocalTime.of(6,0,0);
+        List<TimeKey> timeKeyList = new ArrayList<>();
         for (int i=25; i<=96; i++){ //começando a partir das 6:00
             TimeKey timeKey = new TimeKey();
             timeKey.setKey(i);
@@ -56,6 +64,8 @@ public class DataLoader implements CommandLineRunner {
 
             timeKeyRepository.save(timeKey);
             localTime = localTime.plusMinutes(15L);
+
+            timeKeyList.add(timeKey);
         }
 
 
@@ -74,5 +84,13 @@ public class DataLoader implements CommandLineRunner {
         barber.setLunchDuration(hoursDuration);
 
         barberRepository.save(barber);
+
+        Cut cut = new Cut();
+        cut.setValue(30.00);
+        cut.setTypeCut(TypeCut.BARBA);
+        cut.setTime(LocalTime.of(0,30,0));
+        cut.setSize(2);
+
+        cutRepository.save(cut);
     }
 }

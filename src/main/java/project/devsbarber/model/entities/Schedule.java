@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "SCHEDULE", uniqueConstraints = @UniqueConstraint(columnNames ={"BARBER_ID", "CUT_ID", "DATE"}))
+@Table(name = "SCHEDULE", uniqueConstraints = @UniqueConstraint(columnNames ={"BARBER_ID", "DATE", "TIMETABLE_BARBERS_ID"}))
 public class Schedule {
 
     @Id
@@ -18,9 +18,6 @@ public class Schedule {
     @Column(name = "DATE", nullable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate date;
-
-    @Column(name="HOURS", nullable = false)
-    private LocalTime hours;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="CLIENT_ID", nullable = false)
@@ -35,8 +32,8 @@ public class Schedule {
     private Cut cut;
 
     @ManyToOne
-    @JoinColumn(name="TIME_KEY", nullable = false)
-    private TimeKey timeKey;
+    @JoinColumn(name="TIMETABLE_BARBERS_ID", nullable = false)
+    private TimetableBarbers timetableBarber;
 
     public long getId() {
         return id;
@@ -52,14 +49,6 @@ public class Schedule {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public LocalTime getHours() {
-        return hours;
-    }
-
-    public void setHours(LocalTime hours) {
-        this.hours = hours;
     }
 
     public User getClient() {
@@ -86,11 +75,11 @@ public class Schedule {
         this.cut = cut;
     }
 
-    public TimeKey getTimeKey() {
-        return timeKey;
+    public TimetableBarbers getTimetableBarber() {
+        return timetableBarber;
     }
 
-    public void setTimeKey(TimeKey timeKey) {
-        this.timeKey = timeKey;
+    public void setTimetableBarber(TimetableBarbers timetableBarber) {
+        this.timetableBarber = timetableBarber;
     }
 }

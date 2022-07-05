@@ -55,18 +55,19 @@
                     <li class="active"><a href="/">Início</a></li>
                     <li><a href="#sobre">Informações</a></li>
                     <li><a href="#contatos">Contatos</a></li>
-                    <li><a href="/schedule">Agendar Horário</a></li>
-                    <li><a href="/users" th:if="${user.role} != null AND ${user.role.name} == 'ADMIN'">Usuários</a></li>
+                    <li><a th:href="@{/schedule}">Agendar Horário</a></li>
+                    <li><a th:href="@{/users}" th:if="${userLogado.role} != null AND ${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
+                    <li><a th:href="@{/barbers}" th:if="${userLogado.role} != null AND ${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
                 </ul>
-                <div th:if="${user.name} == 'anonymousUser'">
+                <div th:if="${userLogado.name} == 'anonymousUser'">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </ul>
                 </div>
-                <div th:if="${user.name} != 'anonymousUser'">
+                <div th:if="${userLogado.name} != 'anonymousUser'">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-                        <li><a th:text="${user.name}"> Usuario </a></li>
+                        <li><a th:text="${userLogado.name}"> Usuario </a></li>
                     </ul>
                 </div>
             </div>

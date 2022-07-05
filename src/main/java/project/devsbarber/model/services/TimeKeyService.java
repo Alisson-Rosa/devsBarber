@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.devsbarber.model.dto.TimeKeyStringDTO;
 import project.devsbarber.model.entities.TimeKey;
-import project.devsbarber.repository.TimeKeyRepository;
+import project.devsbarber.model.repository.TimeKeyRepository;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -32,6 +32,18 @@ public class TimeKeyService {
         }
 
         return listVo;
+    }
+
+    public List<TimeKey> findByKey(List<Long> unavailableHours) {
+        return (List<TimeKey>) timeKeyRepository.findAllById(unavailableHours);
+    }
+
+    public List<TimeKey> findByInitialAndFinalKeys(Long initHour, Long finalHours) {
+        return timeKeyRepository.findByInitialAndFinalKeys(initHour, finalHours);
+    }
+
+    public List<TimeKey> findByInitialAndFinalTimes(LocalTime initHour, LocalTime finalHours) {
+        return timeKeyRepository.findByInitialAndFinalTime(initHour, finalHours);
     }
 
 }

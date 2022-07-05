@@ -95,3 +95,56 @@ INSERT INTO public.time_key (key, time) VALUES (93, '23:00:00');
 INSERT INTO public.time_key (key, time) VALUES (94, '23:15:00');
 INSERT INTO public.time_key (key, time) VALUES (95, '23:30:00');
 INSERT INTO public.time_key (key, time) VALUES (96, '23:45:00');
+
+
+--TIMETABLES_BARBERS -- 9:00 às 18:00
+insert into timetable_barbers (barber_id, time_key_id) values (1,37);
+insert into timetable_barbers (barber_id, time_key_id) values (1,38);
+insert into timetable_barbers (barber_id, time_key_id) values (1,39);
+insert into timetable_barbers (barber_id, time_key_id) values (1,40);
+insert into timetable_barbers (barber_id, time_key_id) values (1,41);
+insert into timetable_barbers (barber_id, time_key_id) values (1,42);
+insert into timetable_barbers (barber_id, time_key_id) values (1,43);
+insert into timetable_barbers (barber_id, time_key_id) values (1,44);
+insert into timetable_barbers (barber_id, time_key_id) values (1,45);
+insert into timetable_barbers (barber_id, time_key_id) values (1,46);
+insert into timetable_barbers (barber_id, time_key_id) values (1,47);
+insert into timetable_barbers (barber_id, time_key_id) values (1,48);
+insert into timetable_barbers (barber_id, time_key_id) values (1,49);
+insert into timetable_barbers (barber_id, time_key_id) values (1,50);
+insert into timetable_barbers (barber_id, time_key_id) values (1,51);
+insert into timetable_barbers (barber_id, time_key_id) values (1,52);
+insert into timetable_barbers (barber_id, time_key_id) values (1,53);
+insert into timetable_barbers (barber_id, time_key_id) values (1,54);
+insert into timetable_barbers (barber_id, time_key_id) values (1,55);
+insert into timetable_barbers (barber_id, time_key_id) values (1,56);
+insert into timetable_barbers (barber_id, time_key_id) values (1,57);
+insert into timetable_barbers (barber_id, time_key_id) values (1,58);
+insert into timetable_barbers (barber_id, time_key_id) values (1,59);
+insert into timetable_barbers (barber_id, time_key_id) values (1,60);
+insert into timetable_barbers (barber_id, time_key_id) values (1,61);
+insert into timetable_barbers (barber_id, time_key_id) values (1,62);
+insert into timetable_barbers (barber_id, time_key_id) values (1,63);
+insert into timetable_barbers (barber_id, time_key_id) values (1,64);
+insert into timetable_barbers (barber_id, time_key_id) values (1,65);
+insert into timetable_barbers (barber_id, time_key_id) values (1,66);
+insert into timetable_barbers (barber_id, time_key_id) values (1,67);
+insert into timetable_barbers (barber_id, time_key_id) values (1,68);
+insert into timetable_barbers (barber_id, time_key_id) values (1,69);
+insert into timetable_barbers (barber_id, time_key_id) values (1,70);
+insert into timetable_barbers (barber_id, time_key_id) values (1,71);
+insert into timetable_barbers (barber_id, time_key_id) values (1,72);
+insert into timetable_barbers (barber_id, time_key_id) values (1,73);
+
+
+--schedule
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id)
+VALUES ('2022-07-03', 1, 2, 1, 2);
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id)
+VALUES ('2022-07-03', 1, 2, 1, 3);
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id)
+VALUES ('2022-07-03', 1, 2, 1, 4);
+
+-- select schedule, tb.id, tk.time, tk.key from schedule inner join timetable_barbers tb on schedule.timetable_barbers_id = tb.id inner join time_key tk on tb.time_key_id = tk.key
+--
+-- select * from timetable_barbers where barber_id = 1 and time_key_id not in (38, 40)

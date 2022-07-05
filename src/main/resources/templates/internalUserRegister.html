@@ -66,7 +66,7 @@
     <div class="row col-sm-8">
         <div class="col-sm-12 user-form">
             <h3>Cadastro Usuario</h3>
-            <form class="form-cadastro" th:action="@{/create}" method="post">
+            <form class="form-cadastro" th:action="@{/users/create}" method="post">
 
                 <div class="row row-form">
                     <div class="col-sm-6">
@@ -97,7 +97,7 @@
                     </div>
                     <div class="col-sm-6">
                         <label th:for="roles" class="col-sm-12">Role:</label>
-                        <select th:field="*{userRegister.role}" class="form-select col-sm-12">
+                        <select th:field="*{userRole}" class="form-select col-sm-12">
                             <option value=""> </option>
                             <option th:each="roleOption : ${roleList}" th:value="${roleOption}" th:text="${roleOption.name}"></option>
                         </select>

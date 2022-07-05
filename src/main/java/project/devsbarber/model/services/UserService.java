@@ -1,16 +1,16 @@
 package project.devsbarber.model.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import project.devsbarber.model.entities.Role;
 import project.devsbarber.model.entities.User;
-import project.devsbarber.repository.UserRepository;
+import project.devsbarber.model.repository.UserRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -28,10 +28,13 @@ public class UserService {
             nome = userLogado.toString();
         }
 
-        User user = userRepository.findByUsername(nome);
+        User user = userRepository.getByUsername(nome);
         if(user == null) {
             user = new User();
             user.setName(nome);
+
+            Role role = new Role("ANONIMO");
+            user.setRole(role);
         }
 
         return user;
@@ -49,12 +52,12 @@ public class UserService {
         return (List<User>) userRepository.findAll();
     }
 
-    public User findByUsername(String username) {
+    public List<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     public boolean existUsername(String username) {
-        User user = findByUsername(username);
+        User user = userRepository.getByUsername(username);
         return user != null;
     }
 
@@ -64,6 +67,10 @@ public class UserService {
 
     public long countUsers() {
         return userRepository.count();
+    }
+
+    public Page<User> paginationUser(Pageable pageable){
+        return userRepository.findAllUsersWhitPagination(pageable);
     }
 
 }

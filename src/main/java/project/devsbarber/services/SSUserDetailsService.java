@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import project.devsbarber.model.entities.Role;
 import project.devsbarber.model.entities.User;
-import project.devsbarber.repository.UserRepository;
+import project.devsbarber.model.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
@@ -27,7 +27,7 @@ public class SSUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            User user = userRepository.findByUsername(username);
+            User user = userRepository.getByUsername(username);
             if(user==null){
                 return null;
             }

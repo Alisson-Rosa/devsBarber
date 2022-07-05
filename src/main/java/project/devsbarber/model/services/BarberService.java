@@ -2,8 +2,9 @@ package project.devsbarber.model.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.devsbarber.model.entities.Barber;
-import project.devsbarber.repository.BarberRepository;
+import project.devsbarber.model.repository.BarberRepository;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class BarberService {
     BarberRepository barberRepository;
 
     public List<Barber> findAllAvailable(LocalDate date) {
-        List<Barber> barberListAll = (List<Barber>) barberRepository.findAll();
+        List<Barber> barberListAll = barberRepository.findAll();
 
         List<Barber> barberList = new ArrayList<>();
         for (Barber barber : barberListAll) {
@@ -35,6 +36,7 @@ public class BarberService {
         return (List<Barber>) barberRepository.findAll();
     }
 
+    @Transactional
     public Barber saveOrUpdate(Barber barberRegister) {
         return barberRepository.save(barberRegister);
     }

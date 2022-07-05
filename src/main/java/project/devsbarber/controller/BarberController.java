@@ -8,25 +8,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import project.devsbarber.model.entities.Barber;
-import project.devsbarber.model.entities.Role;
 import project.devsbarber.model.entities.TimeKey;
 import project.devsbarber.model.entities.User;
 import project.devsbarber.model.enums.EnumDays;
 import project.devsbarber.model.services.BarberService;
 import project.devsbarber.model.services.TimeKeyService;
+import project.devsbarber.model.services.TimetableBarbersService;
 import project.devsbarber.model.services.UserService;
-import project.devsbarber.repository.RoleRepository;
+import project.devsbarber.model.repository.RoleRepository;
 import project.devsbarber.util.UtilProject;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class BarberController {
 
-    @Autowired RoleRepository roleRepository;
-    @Autowired UserService userService;
-    @Autowired BarberService barberService;
-    @Autowired TimeKeyService timeKeyService;
+    @Autowired private RoleRepository roleRepository;
+    @Autowired private UserService userService;
+    @Autowired private BarberService barberService;
+    @Autowired private TimeKeyService timeKeyService;
+    @Autowired private TimetableBarbersService timetableBarbersService;
 
     @RequestMapping(value = "/barbers")
     public String usersIndex(){
@@ -78,6 +81,14 @@ public class BarberController {
         List<TimeKey> timeKeyList = timeKeyService.findAll();
         model.addAttribute("timeKeyList", timeKeyList);
 
+        List<LocalTime> lunchDurationList = new ArrayList<>();
+        LocalTime time = LocalTime.of(0,0);
+        for(int i=0; i<10; i++){
+            time = time.plusMinutes(15);
+            lunchDurationList.add(time);
+        }
+        model.addAttribute("lunchDurationList", lunchDurationList);
+
         return "barberRegister";
     }
 
@@ -96,17 +107,26 @@ public class BarberController {
         List<TimeKey> timeKeyList = timeKeyService.findAll();
         model.addAttribute("timeKeyList", timeKeyList);
 
+        List<LocalTime> lunchDurationList = new ArrayList<>();
+        LocalTime time = LocalTime.of(0,0);
+        for(int i=0; i<10; i++){
+            time = time.plusMinutes(15);
+            lunchDurationList.add(time);
+        }
+        model.addAttribute("lunchDurationList", lunchDurationList);
+
         return "barberEdit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "barbers/barberRegister/createBarber")
     public String createBarber(@ModelAttribute Barber barberRegister) throws Exception {
         String name = barberRegister.getName();
-        boolean existUsername = barberService.existUsername(name);//TODO Alterar para findByUsername
+        boolean existUsername = barberService.existUsername(name);
         if(existUsername){
             throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
         }
-        barberService.saveOrUpdate(barberRegister);
+        Barber barber = barberService.saveOrUpdate(barberRegister);
+        timetableBarbersService.saveTimetableBarber(barber);
         return "redirect:/barbers/barberRegister/" + barberRegister.getId();
     }
 

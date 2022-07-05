@@ -104,9 +104,9 @@
                 </table>
                 <div class="clearfix">
                     <div class="hint-text col-sm-6"><b>
-                        <label th:text="${countUser}"/>
+                        <label th:text="${countUserPage}"/>
                     </b> de <b>
-                        <label th:text="${countUser}"/>
+                        <label th:text="${countUserTotal}"/>
                     </b> usuários</div>
                     <div class="col-sm-6">
                         <div class="group-pagination">
@@ -114,9 +114,9 @@
                                 <li class="page-item disabled" th:if="${previousPage} < 1"><a>Previous</a></li>
                                 <li class="page-item" th:if="${previousPage} >= 1"><a th:href="@{{id}(id=${previousPage})}">Previous</a></li>
                             </ul>
-                            <ul class="pagination" th:each="countPagina : ${countPaginasList}">
-                                <li class="page-item active" th:if="${currentPage} == ${countPagina}"><a class="page-link" th:text="${countPagina}">page</a></li>
-                                <li class="page-item" th:if="${currentPage} != ${countPagina}"><a class="page-link" th:href="@{{id}(id=${countPagina})}" th:text="${countPagina}">page</a></li>
+                            <ul class="pagination" th:each="page : ${#numbers.sequence(1, totalPages, 1)}">
+                                <li class="page-item active" th:if="${currentPage} == ${page}"><a class="page-link" th:text="${page}">page</a></li>
+                                <li class="page-item" th:if="${currentPage} != ${page}"><a class="page-link" th:href="@{{id}(id=${page})}" th:text="${page}">page</a></li>
                             </ul>
                             <ul class="pagination">
                                 <li class="page-item disabled" th:if="${nextPage} > ${finalPage}"><a class="page-link">Next</a></li>

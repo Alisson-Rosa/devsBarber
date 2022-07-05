@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.devsbarber.model.entities.Cut;
 import project.devsbarber.model.enums.TypeCut;
-import project.devsbarber.repository.CutRepository;
+import project.devsbarber.model.repository.CutRepository;
 
 import java.util.List;
 
@@ -30,5 +30,9 @@ public class CutService {
         }
 
         return cutList;
+    }
+
+    public Cut get(Long cutId) {
+        return cutRepository.getById(cutId);
     }
 }

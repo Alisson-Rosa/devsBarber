@@ -11,10 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import project.devsbarber.repository.UserRepository;
+import project.devsbarber.model.repository.UserRepository;
 import project.devsbarber.services.SSUserDetailsService;
 
 @Configuration
@@ -42,8 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/h2-console/**").permitAll()
                 .antMatchers("/schedule").authenticated()
-                .antMatchers("/users/**").access("hasAuthority('ADMIN')")
-                .antMatchers("/userForm").permitAll()
+                .antMatchers("/users/**").permitAll()//access("hasAuthority('ADMIN')")
+                .antMatchers("/userForm/**").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("/js/**").permitAll()

@@ -49,7 +49,7 @@
                 <li><a href="/">Início</a></li>
                 <li><a href="#sobre">Informações</a></li>
                 <li><a href="#contatos">Contatos</a></li>
-                <li><a href="#" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
+                <li><a th:href="@{/schedule}" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
                 <li><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
                 <li class="active"><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
             </ul>
@@ -112,7 +112,7 @@
                         <label th:for="roles" class="col-sm-12">Tempo de Duração do Almoço:</label>
                         <select th:field="*{barberRegister.lunchDuration}" class="form-select col-sm-12" required="required">
                             <option th:value="${barberRegister.lunchDuration}" th:text="${barberRegister.lunchDuration.toString}"> </option>
-                            <option th:each="timeKey : ${timeKeyList}" th:value="${timeKey.time}" th:text="${timeKey.time.toString}"></option>
+                            <option th:each="time : ${lunchDurationList}" th:value="${time}" th:text="${time.toString}"></option>
                         </select>
                     </div>
                 </div>

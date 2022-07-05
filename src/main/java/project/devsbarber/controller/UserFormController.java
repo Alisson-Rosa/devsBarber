@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import project.devsbarber.model.entities.Role;
 import project.devsbarber.model.entities.User;
 import project.devsbarber.model.services.UserService;
-import project.devsbarber.repository.RoleRepository;
-import project.devsbarber.repository.UserRepository;
-
-import javax.annotation.processing.Messager;
+import project.devsbarber.model.repository.RoleRepository;
+import project.devsbarber.model.repository.UserRepository;
 
 @Controller
 public class UserFormController {
@@ -27,20 +25,15 @@ public class UserFormController {
         return "userForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/userFormRegister")
+    @RequestMapping(method = RequestMethod.POST, value = "/uerForm/register")
     public String result(@ModelAttribute User user) throws Exception {
-        Role userRole = roleRepository.getByName("USER");
+        Role userRole = roleRepository.getByName("CLIENT");
         boolean existUsername = userService.existUsername(user.getUsername());
         if(existUsername){
             throw new Exception("Usuario já existe!");
         }
         user.setRole(userRole);
         userRepository.save(user);
-        return "redirect:/userForm";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/loginVoltar")
-    public String Voltar() {
-        return "login";
+        return "redirect:/login";
     }
 }
