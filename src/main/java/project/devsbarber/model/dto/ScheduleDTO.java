@@ -1,9 +1,9 @@
 package project.devsbarber.model.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import project.devsbarber.model.entities.TimeKey;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ScheduleDTO {
 
@@ -14,6 +14,7 @@ public class ScheduleDTO {
     private Long cutId;
     private Double value;
     private Long key;
+    private LocalTime timeCut;
 
     public LocalDate getDate() {
         return date;
@@ -61,5 +62,13 @@ public class ScheduleDTO {
 
     public void setKey(Long key) {
         this.key = key;
+    }
+
+    public LocalTime getTimeCut() {
+        return timeCut;
+    }
+
+    public void setTimeCut(LocalTime timeCut) {
+        this.timeCut = timeCut;
     }
 }

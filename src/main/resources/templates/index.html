@@ -58,6 +58,7 @@
                     <li><a th:href="@{/schedule}">Agendar Horário</a></li>
                     <li><a th:href="@{/users}" th:if="${userLogado.role} != null AND ${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
                     <li><a th:href="@{/barbers}" th:if="${userLogado.role} != null AND ${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
+                    <li><a th:href="@{/cuts}" th:if="${userLogado.role.name} == 'ADMIN'">Cortes</a></li>
                 </ul>
                 <div th:if="${userLogado.name} == 'anonymousUser'">
                     <ul class="nav navbar-nav navbar-right">
@@ -141,35 +142,35 @@
         <div class="col-sm-4">
             <p>Barba R$ 30,00</p>
             <img th:src="@{/img/barbaCorte.png}" alt="Image"> <br>
-            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+            <a class="btn btn-primary" th:href="@{/schedule}" role="button">Agende Agora!</a>
         </div>
 
         <div class="col-sm-4">
             <p>Cabelo - R$ 30,00</p>
             <img th:src="@{/img/cabeloCorte.jpg}" alt="Image"> <br>
-            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+            <a class="btn btn-primary" th:href="@{/schedule}" role="button">Agende Agora!</a>
         </div>
 
         <div class="col-sm-4">
             <p>Bigode - R$ 10,00</p>
             <img th:src="@{/img/bigodeCorte.jpg}" alt="Image"> <br>
-            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+            <a class="btn btn-primary" th:href="@{/schedule}" role="button">Agende Agora!</a>
         </div>
 
         <div class="col-sm-4 fila-2">
             <p>Sobrancelha - R$ 20,00</p>
             <img th:src="@{/img/sobrancelha.png}" alt="Image"> <br>
-            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+            <a class="btn btn-primary" th:href="@{/schedule}" role="button">Agende Agora!</a>
         </div>
         <div class="col-sm-4 fila-2">
             <p>Cabelo, Barba e Bigode - R$ 60,00</p>
             <img th:src="@{/img/barbaEcabelo.jpg}" alt="Image"> <br>
-            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+            <a class="btn btn-primary" th:href="@{/schedule}" role="button">Agende Agora!</a>
         </div>
         <div class="col-sm-4 fila-2">
             <p>Pacote Completo - R$ 70,00</p>
             <img th:src="@{/img/pacoteCompleto.jpg}" alt="Image"> <br>
-            <a class="btn btn-primary" href="#" role="button">Agende Agora!</a>
+            <a class="btn btn-primary" th:href="@{/schedule}" role="button">Agende Agora!</a>
         </div>
     </div>
     <br><br>

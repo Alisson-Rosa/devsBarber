@@ -4,7 +4,7 @@
   <title>BarberShop</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link th:href="@{/css/internalUser.css}" rel="stylesheet" />
+  <link th:href="@{/css/registers.css}" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -34,6 +34,9 @@
 </head>
 
 <body>
+<div id="load-container">
+  <img id="gif-loading" th:src="@{/gif/loading.gif}" alt="Loading">
+</div>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -49,8 +52,10 @@
         <li><a href="/">Início</a></li>
         <li><a href="#sobre">Informações</a></li>
         <li><a href="#contatos">Contatos</a></li>
-        <li><a href="#" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
-        <li class="active"><a href="#" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
+        <li><a th:href="@{/schedule}" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
+        <li><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
+        <li><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
+        <li class="active"><a th:href="@{/cuts}" th:if="${userLogado.role.name} == 'ADMIN'">Cortes</a></li>
       </ul>
       <div th:if="${userLogado.name} != 'anonymousUser'">
         <ul class="nav navbar-nav navbar-right">
@@ -65,47 +70,41 @@
 <div class="container user-container">
   <div class="row col-sm-8">
     <div class="col-sm-12 user-form">
-      <h3>Cadastro Usuario</h3>
-      <form class="form-cadastro" th:action="@{/create}" method="post">
-
+      <h3>Edição Corte</h3>
+      <form class="form-cadastro" th:action="@{edit/{id}(id = ${cutRegister.id})}" method="post">
         <div class="row row-form">
           <div class="col-sm-6">
-            <label th:for="name" class="col-sm-12">Nome:</label>
-            <input type="text" th:field="*{userRegister.name}" placeholder="Seu Nome" class="form-control" required="required">
-          </div>
-          <div class="col-sm-6">
-            <label th:for="nickname" class="col-sm-12">Usuario:</label>
-            <input type="text" th:field="*{userRegister.username}" placeholder="usuario" class="form-control" required="required">
-          </div>
-        </div>
-
-        <div class="row row-form">
-          <div class="col-sm-6">
-            <label th:for="password" class="col-sm-12">Senha:</label>
-            <input type="password" th:field="*{userRegister.password}" placeholder="******" class="form-control" required="required">
-          </div>
-          <div class="col-sm-6">
-            <label th:for="email" class="col-sm-12">Email:</label>
-            <input type="email" th:field="*{userRegister.email}" class="form-control" required="required">
-          </div>
-        </div>
-
-        <div class="row row-form">
-          <div class="col-sm-6">
-            <label th:for="birthdate" class="col-sm-12">Data de Nascimento:</label>
-            <input type="date" th:field="*{userRegister.birthdate}" class="form-control" required="required">
-          </div>
-          <div class="col-sm-6">
-            <label th:for="roles" class="col-sm-12">Role:</label>
-            <select th:field="*{userRole}" class="form-select col-sm-12">
+            <label th:for="roles" class="col-sm-12">Tipo de Corte:</label>
+            <select th:field="*{cutRegister.typeCut}" class="form-select col-sm-12" required="required">
               <option value=""> </option>
-              <option th:each="roleOption : ${roleList}" th:value="${roleOption}" th:text="${roleOption.name}"></option>
+              <option th:each="typeCut : ${typeCuts}" th:value="${typeCut}" th:text="${typeCut.name}"></option>
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <label th:for="roles" class="col-sm-12">Tempo:</label>
+            <select th:field="*{cutRegister.time}" class="form-select col-sm-12" required="required">
+              <option value=""> </option>
+              <option th:each="timeCut : ${timeCutList}" th:value="${timeCut}" th:text="${timeCut.toString}"></option>
             </select>
           </div>
         </div>
-
+        <div class="row row-form">
+          <div class="col-sm-6">
+            <label th:for="roles" class="col-sm-12">Ativo:</label>
+            <select th:field="*{cutRegister.enable}" class="form-select col-sm-12" required="required">
+              <option th:if="${cutRegister.enable}" th:value="${userDTO.enable}">Não</option>
+              <option th:if="${!cutRegister.enable}" th:value="${userDTO.enable}">Sim</option>
+              <option th:if="${cutRegister.enable}" th:value="${userDTO.enable}">Sim</option>
+              <option th:if="${!cutRegister.enable}" th:value="${userDTO.enable}">Não</option>
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <label th:for="roles" class="col-sm-12">Valor:</label>
+            <input type="text" th:field="${cutRegister.value}" placeholder="Valor" class="form-control" required="required">
+          </div>
+        </div>
         <div class="row btn-cadastrar">
-          <input type="submit" class="btnSubmit" value="Cadastrar" />
+          <input type="submit" class="btnSubmit" value="Salvar" />
         </div>
       </form>
     </div>
@@ -147,7 +146,24 @@
     </p>
   </div>
 </div>
+<script>
+  window.addEventListener("load", function() {
+    var fadeContainer = document.querySelector("#load-container");
+    setTimeout(function() {
 
+      fadeContainer.style.display = "none";
+
+    }, 1000);
+  });
+  $(document).ready(function () {
+
+    setTimeout(function () {
+      $(".alert").fadeOut("slow", function () {
+        $(this).alert('close');
+      });
+    }, 5000);
+  });
+</script>
 <script type="text/javascript" src="./js/jquery.js"></script>
 <script type="text/javascript" src="./js/jquery-migrate.js"></script>
 <script type="text/javascript" src="./js/slick.min.js"></script>

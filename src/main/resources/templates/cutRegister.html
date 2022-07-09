@@ -52,10 +52,10 @@
                 <li><a href="/">Início</a></li>
                 <li><a href="#sobre">Informações</a></li>
                 <li><a href="#contatos">Contatos</a></li>
-                <li><a href="#" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
-                <li class="active"><a href="#" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
+                <li><a th:href="@{/schedule}" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
+                <li><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
                 <li><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
-                <li><a th:href="@{/cuts}" th:if="${userLogado.role.name} == 'ADMIN'">Cortes</a></li>
+                <li class="active"><a th:href="@{/cuts}" th:if="${userLogado.role.name} == 'ADMIN'">Cortes</a></li>
             </ul>
             <div th:if="${userLogado.name} != 'anonymousUser'">
                 <ul class="nav navbar-nav navbar-right">
@@ -70,51 +70,32 @@
 <div class="container user-container">
     <div class="row col-sm-8">
         <div class="col-sm-12 user-form">
-            <h3>Cadastro Usuario</h3>
-            <form class="form-cadastro" th:action="@{/users/create}" method="post">
-
+            <h3>Cadastro Cortes</h3>
+            <form class="form-cadastro" th:action="@{/cuts/cutRegister/createCut}" method="post">
                 <div class="row row-form">
                     <div class="col-sm-6">
-                        <label th:for="name" class="col-sm-12">Nome:</label>
-                        <input type="text" th:field="*{userDTO.name}" placeholder="Seu Nome" class="form-control" required="required">
-                    </div>
-                    <div class="col-sm-6">
-                        <label th:for="nickname" class="col-sm-12">Usuario:</label>
-                        <input type="text" th:field="*{userDTO.username}" placeholder="usuario" class="form-control" required="required">
-                    </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-6">
-                        <label th:for="password" class="col-sm-12">Senha:</label>
-                        <input type="password" th:field="*{userDTO.password}" placeholder="******" class="form-control" required="required">
-                    </div>
-                    <div class="col-sm-6">
-                        <label th:for="email" class="col-sm-12">Email:</label>
-                        <input type="email" th:field="*{userDTO.email}" class="form-control" required="required">
-                    </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-4">
-                        <label th:for="birthdate" class="col-sm-12">Data de Nascimento:</label>
-                        <input type="date" th:field="*{userDTO.birthdate}" class="form-control" required="required">
-                    </div>
-                    <div class="col-sm-4">
-                        <label th:for="roles" class="col-sm-12">Role:</label>
-                        <select th:field="*{userDTO.roleId}" class="form-select col-sm-12">
+                        <label th:for="roles" class="col-sm-12">Tipo de Corte:</label>
+                        <select th:field="*{cutRegister.typeCut}" class="form-select col-sm-12" required="required">
                             <option value=""> </option>
-                            <option th:each="roleOption : ${roleList}" th:value="${roleOption.id}" th:text="${roleOption.name}"></option>
+                            <option th:each="typeCut : ${typeCuts}" th:value="${typeCut}" th:text="${typeCut.name}"></option>
                         </select>
                     </div>
-                    <div class="col-sm-4">
-                        <label th:for="telephone" class="col-sm-12">Telefone:</label>
-                        <input type="text" th:field="*{userDTO.telephone}" placeholder="(dd) 00000-0000" class="form-control" required="required">
+                    <div class="col-sm-6">
+                        <label th:for="roles" class="col-sm-12">Tempo:</label>
+                        <select th:field="*{cutRegister.time}" class="form-select col-sm-12" required="required">
+                            <option value=""> </option>
+                            <option th:each="timeCut : ${timeCutList}" th:value="${timeCut}" th:text="${timeCut.toString}"></option>
+                        </select>
                     </div>
                 </div>
-
-                <div class="row btn-cadastrar">
-                    <input type="submit" class="btnSubmit" value="Cadastrar" />
+                <div class="row row-form">
+                    <div class="col-sm-6">
+                        <label th:for="roles" class="col-sm-12">Valor:</label>
+                        <input type="text" th:field="${cutRegister.value}" placeholder="Valor" class="form-control" required="required">
+                    </div>
+                    <div class="col-sm-6 btn-cadastrar">
+                        <input type="submit" class="btnSubmit" value="Cadastrar" />
+                    </div>
                 </div>
             </form>
         </div>

@@ -32,6 +32,9 @@
     </head>
 
     <body>
+        <div id="load-container">
+            <img id="gif-loading" th:src="@{/gif/loading.gif}" alt="Loading">
+        </div>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -50,6 +53,7 @@
                         <li><a th:href="@{/schedule}" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
                         <li class="active"><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
                         <li><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
+                        <li><a th:href="@{/cuts}" th:if="${userLogado.role.name} == 'ADMIN'">Cortes</a></li>
                     </ul>
                     <div th:if="${userLogado.name} != 'anonymousUser'">
                         <ul class="nav navbar-nav navbar-right">
@@ -94,7 +98,8 @@
                             <td th:text="${user.email}" >Email</td>
                             <td th:text="${user.role.name}">Role</td>
                             <td th:text="${user.telephone}">Telefone</td>
-                            <td th:text="${user.enable}">ATIVO</td>
+                            <td th:if="${user.enable}">Sim</td>
+                            <td th:if="${!user.enable}">Não</td>
                             <td class="column-actions">
                                 <a th:href="@{userRegister/{id}(id=${user.id})}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
                                 <a th:href="@{delete/{id}(id=${user.id})}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Deletar">&#xE872;</i></a>
@@ -254,6 +259,25 @@
                 </p>
             </div>
         </div>
+
+        <script>
+            window.addEventListener("load", function() {
+                var fadeContainer = document.querySelector("#load-container");
+                setTimeout(function() {
+
+                    fadeContainer.style.display = "none";
+
+                }, 1000);
+            });
+            $(document).ready(function () {
+
+                setTimeout(function () {
+                    $(".alert").fadeOut("slow", function () {
+                        $(this).alert('close');
+                    });
+                }, 5000);
+            });
+        </script>
 
         <script type="text/javascript" src="./js/jquery.js"></script>
         <script type="text/javascript" src="./js/jquery-migrate.js"></script>

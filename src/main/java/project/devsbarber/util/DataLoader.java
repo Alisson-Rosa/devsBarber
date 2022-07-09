@@ -33,10 +33,10 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         roleRepository.save(new Role("CLIENT"));
         roleRepository.save(new Role("ADMIN"));
-        roleRepository.save(new Role("ADMIN2"));
+        roleRepository.save(new Role("GERENTE"));
 
         Role adminRole = roleRepository.getByName("ADMIN");
-        Role adminTwoRole = roleRepository.getByName("ADMIN2");
+        Role gerente = roleRepository.getByName("GERENTE");
         Role clientRole = roleRepository.getByName("CLIENT");
 
         LocalDate date = LocalDate.now();
@@ -52,7 +52,7 @@ public class DataLoader implements CommandLineRunner {
 
         user = new User("Teste@code.com", passwordEncoder.encode("password"),
                 "Teste", true, "TESTE", date, "(41) 99741-5901");
-        user.setRole(adminTwoRole);
+        user.setRole(gerente);
         userRepository.save(user);
 
         LocalTime localTime = LocalTime.of(6,0,0);
@@ -73,8 +73,8 @@ public class DataLoader implements CommandLineRunner {
         barber.setName("ALISSON ROSA");
         barber.setDayOff(EnumDays.SEGUNDA);
 
-        LocalTime hoursStart = LocalTime.of(8, 0, 0);
-        LocalTime hoursEnd = LocalTime.of(19, 0, 0);
+        LocalTime hoursStart = LocalTime.of(9, 0, 0);
+        LocalTime hoursEnd = LocalTime.of(18, 0, 0);
         LocalTime hoursLunch = LocalTime.of(12, 0, 0);
         LocalTime hoursDuration = LocalTime.of(1, 0, 0);
 
@@ -82,6 +82,7 @@ public class DataLoader implements CommandLineRunner {
         barber.setWorkEndTime(hoursEnd);
         barber.setLunchTime(hoursLunch);
         barber.setLunchDuration(hoursDuration);
+        barber.setEnable(true);
 
         barberRepository.save(barber);
 

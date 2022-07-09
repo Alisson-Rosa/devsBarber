@@ -4,7 +4,7 @@
     <title>BarberShop</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:href="@{/css/internalUser.css}" rel="stylesheet" />
+    <link th:href="@{/css/registers.css}" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -34,6 +34,9 @@
 </head>
 
 <body>
+<div id="load-container">
+    <img id="gif-loading" th:src="@{/gif/loading.gif}" alt="Loading">
+</div>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -52,6 +55,7 @@
                 <li><a th:href="@{/schedule}" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
                 <li><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
                 <li class="active"><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
+                <li><a th:href="@{/cuts}" th:if="${userLogado.role.name} == 'ADMIN'">Cortes</a></li>
             </ul>
             <div th:if="${userLogado.name} != 'anonymousUser'">
                 <ul class="nav navbar-nav navbar-right">
@@ -160,7 +164,24 @@
         </p>
     </div>
 </div>
+<script>
+    window.addEventListener("load", function() {
+        var fadeContainer = document.querySelector("#load-container");
+        setTimeout(function() {
 
+            fadeContainer.style.display = "none";
+
+        }, 1000);
+    });
+    $(document).ready(function () {
+
+        setTimeout(function () {
+            $(".alert").fadeOut("slow", function () {
+                $(this).alert('close');
+            });
+        }, 5000);
+    });
+</script>
 <script type="text/javascript" src="./js/jquery.js"></script>
 <script type="text/javascript" src="./js/jquery-migrate.js"></script>
 <script type="text/javascript" src="./js/slick.min.js"></script>

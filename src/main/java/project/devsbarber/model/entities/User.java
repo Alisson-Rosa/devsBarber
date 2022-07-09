@@ -33,17 +33,20 @@ public class User implements UserDetails {
     @Column(name="ENABLE", nullable = false)
     private boolean enable;
 
+    @Column(name="SERVICE_TERMS")
+    private boolean serviceTerms;
+
     @Column(name="USERNAME", nullable = false)
     private String username;
 
-    @Column(name = "BIRTHDATE")
+    @Column(name = "BIRTHDATE", nullable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthdate;
 
     @ManyToOne
     @JoinTable( name = "USER_ROLE",
-                joinColumns = {@JoinColumn (name = "USER_ID")},
-                inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
+                joinColumns = {@JoinColumn (name = "USER_ID", nullable = false)},
+                inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", nullable = false)})
     private Role role;
 
     public User (){
@@ -155,5 +158,13 @@ public class User implements UserDetails {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public boolean isServiceTerms() {
+        return serviceTerms;
+    }
+
+    public void setServiceTerms(boolean serviceTerms) {
+        this.serviceTerms = serviceTerms;
     }
 }

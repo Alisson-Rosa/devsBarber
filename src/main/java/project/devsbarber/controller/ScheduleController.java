@@ -16,6 +16,8 @@ import project.devsbarber.model.services.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -85,7 +87,7 @@ public class ScheduleController {
             barberScheduleList.addAll(barberNotInTimeKeyList);
         }
         List<BarberScheduleDTO> barberScheduleDTOs = scheduleService.getBarberScheduleDTO(barberScheduleList);
-
+        Collections.sort(barberScheduleDTOs);
         model.addAttribute("barberScheduleList", barberScheduleDTOs);
 
         Long initialBusinessHours = 25L; //TODO Alterar para parametro da tela de configs
@@ -97,6 +99,7 @@ public class ScheduleController {
         model.addAttribute("cutList", cutList);
 
         scheduleDTO.setValue(cut.getValue());
+        scheduleDTO.setTimeCut(cut.getTime());
         model.addAttribute("scheduleDTO", scheduleDTO);
 
         return "schedule";
@@ -121,12 +124,22 @@ public class ScheduleController {
         List<TimetableBarbers> barberScheduleList = new ArrayList<>();
         List<Barber> barberList = barberService.findAll();
         for (Barber barber : barberList) {//pega todos horários invalidos dos barbeiros
+            EnumDays dayOff = barber.getDayOff();
+            DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+            if(dayOfWeek.equals(dayOff.getDayOfWeek())){
+                TimetableBarbers timetableBarber = new TimetableBarbers();
+                timetableBarber.setBarber(barber);
+                barberScheduleList.add(timetableBarber);
+                continue;
+            }
+
             unavailableHours = scheduleService.findUnavailableHours(barber, cut, localDate); //Usar resultado para filtrar na tabela os horários disponiveis
             List<TimeKey> timeKeyUnavailable = timeKeyService.findByKey(unavailableHours);
-            barberScheduleList = timetableBarberService.findByBarberNotInTimeKey(barber, timeKeyUnavailable);
+            List<TimetableBarbers> barberNotInTimeKeyList = timetableBarberService.findByBarberNotInTimeKey(barber, timeKeyUnavailable);
+            barberScheduleList.addAll(barberNotInTimeKeyList);
         }
         List<BarberScheduleDTO> barberScheduleDTOs = scheduleService.getBarberScheduleDTO(barberScheduleList);
-
+        Collections.sort(barberScheduleDTOs);
         model.addAttribute("barberScheduleList", barberScheduleDTOs);
 
         Long initialBusinessHours = 25L; //TODO Alterar para parametro da tela de configs
@@ -138,6 +151,7 @@ public class ScheduleController {
         model.addAttribute("cutList", cutList);
 
         scheduleDTO.setValue(cut.getValue());
+        scheduleDTO.setTimeCut(cut.getTime());
         model.addAttribute("scheduleDTO", scheduleDTO);
 
         return "schedule";

@@ -26,9 +26,4 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping("/secure")
-    public String secure(){
-        return "secure";
-    }
-
 }

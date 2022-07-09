@@ -10,21 +10,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import project.devsbarber.model.dto.UserRegisterDTO;
 import project.devsbarber.model.entities.Role;
 import project.devsbarber.model.entities.User;
+import project.devsbarber.model.services.RoleService;
 import project.devsbarber.model.services.UserService;
-import project.devsbarber.model.repository.RoleRepository;
 
 import java.util.List;
 
 @Controller
 public class UsersController {
 
-    @Autowired
-    RoleRepository roleRepository;
+    @Autowired private RoleService roleService;
 
-    @Autowired
-    UserService userService;
+    @Autowired private UserService userService;
 
     @RequestMapping(value = "/users")
     public String usersIndex(){
@@ -36,9 +35,6 @@ public class UsersController {
 
         User userLogado = userService.getUserLogado();
         model.addAttribute("userLogado", userLogado);
-
-        User userRegister = new User();
-        model.addAttribute("userRegister", userRegister);
 
         Page<User> usersPagination = userService.paginationUser(PageRequest.of(pageId - 1, 15, Sort.Direction.DESC, "username"));
         List<User> userList = usersPagination.getContent();
@@ -69,12 +65,15 @@ public class UsersController {
         User userLogado = userService.getUserLogado();
         model.addAttribute("userLogado", userLogado);
 
-        User userRegister = new User();
-        Role role = new Role();
-        model.addAttribute("userRegister", userRegister);
-        model.addAttribute("userRole", role);
+        UserRegisterDTO userDTO = new UserRegisterDTO();
+        model.addAttribute("userDTO", userDTO);
 
-        List<Role> roleList = (List<Role>) roleRepository.findAll();
+//        User userRegister = new User();
+//        Long userRoleId = null;
+//        model.addAttribute("userRegister", userRegister);
+//        model.addAttribute("userRoleId", userRoleId);
+
+        List<Role> roleList = roleService.findAll();
         model.addAttribute("roleList", roleList);
         return "internalUserRegister";
     }
@@ -85,42 +84,37 @@ public class UsersController {
         User userLogado = userService.getUserLogado();
         model.addAttribute("userLogado", userLogado);
 
-        User userRegister = userService.getUser(id);
-        Role role = new Role();
-        model.addAttribute("userRegister", userRegister);
-        model.addAttribute("userRole", role);
+        UserRegisterDTO userDTO = userService.getUserDTO(id);
+        model.addAttribute("userDTO", userDTO);
 
-        List<Role> roleList = (List<Role>) roleRepository.findAll();
+        List<Role> roleList = roleService.findAll();
         model.addAttribute("roleList", roleList);
 
         return "InternalUserEdit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit/{userId}")
-    public String userEditResult(@ModelAttribute User userRegister, @ModelAttribute Role userRole, @PathVariable("userId") Long id){
-        userRegister.setId(id);
-        if(userRegister.getRole() != userRole){
-            userRegister.setRole(userRole);
-        }
-        if(userRegister.getBirthdate() == null) {
+    public String userEditResult(@ModelAttribute UserRegisterDTO userDTO, @PathVariable("userId") Long id){
+        userDTO.setUserId(id);
+        if(userDTO.getBirthdate() == null) {
             User user = userService.getUser(id);
-            userRegister.setBirthdate(user.getBirthdate());
+            userDTO.setBirthdate(user.getBirthdate());
         }
-        userService.saveOrUpdate(userRegister);
-        return "redirect:/users/userRegister/" + userRegister.getId();
+
+        User user = userService.saveOrUpdateUserDTO(userDTO);
+        return "redirect:/users/userRegister/" + user.getId();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "users/create")
-    public String create(@ModelAttribute User userRegister, @ModelAttribute Role userRole) throws Exception {
-        userRegister.setRole(userRole);
-        String username = userRegister.getUsername();
+    public String create(@ModelAttribute UserRegisterDTO userRegisterDTO) throws Exception {
+        String username = userRegisterDTO.getUsername();
         boolean existUsername = userService.existUsername(username);
         if(existUsername){
             throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
         }
-        userRegister.setTelephone("41 99999-999");
-        userService.saveOrUpdate(userRegister);
-        return "redirect:/users/userRegister/" + userRegister.getId();
+
+        User user = userService.saveOrUpdateUserDTO(userRegisterDTO);
+        return "redirect:/users/userRegister/" + user.getId();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "users/delete/{userId}")

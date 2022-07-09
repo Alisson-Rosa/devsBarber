@@ -19,4 +19,7 @@ public interface TimeKeyRepository extends CrudRepository<TimeKey, Long> {
 
     @Query(value = "select tk from TimeKey tk where tk.time >= :init and tk.time <= :final ")
     List<TimeKey> findByInitialAndFinalTime(@Param("init") LocalTime initHour, @Param("final") LocalTime finalHours);
+
+    @Query(value = "select tk from TimeKey tk where tk.time = :time ")
+    TimeKey getByTime(@Param("time") LocalTime workEndTime);
 }

@@ -1,6 +1,9 @@
 package project.devsbarber.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,8 +18,6 @@ import project.devsbarber.model.services.BarberService;
 import project.devsbarber.model.services.TimeKeyService;
 import project.devsbarber.model.services.TimetableBarbersService;
 import project.devsbarber.model.services.UserService;
-import project.devsbarber.model.repository.RoleRepository;
-import project.devsbarber.util.UtilProject;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -25,39 +26,36 @@ import java.util.List;
 @Controller
 public class BarberController {
 
-    @Autowired private RoleRepository roleRepository;
     @Autowired private UserService userService;
     @Autowired private BarberService barberService;
     @Autowired private TimeKeyService timeKeyService;
     @Autowired private TimetableBarbersService timetableBarbersService;
 
     @RequestMapping(value = "/barbers")
-    public String usersIndex(){
+    public String barberIndex(){
         return "redirect:/barbers/1";
     }
 
     @RequestMapping(value = "/barbers/{pageId}")
-    public String users(final Model model, @PathVariable Long pageId) {
+    public String barbers(final Model model, @PathVariable int pageId) {
 
         User userLogado = userService.getUserLogado();
         model.addAttribute("userLogado", userLogado);
 
-        User userRegister = new User();
-        model.addAttribute("userRegister", userRegister);
+        Page<Barber> barbersPagination = barberService.paginationBarber(PageRequest.of(pageId - 1, 15, Sort.Direction.DESC, "name"));
+        List<Barber> barberList = barbersPagination.getContent();
+        long countBarberTotal = barbersPagination.getTotalElements();
+        int totalPages = barbersPagination.getTotalPages();
+        int countBarberPage = barbersPagination.getNumberOfElements();
+        int currentPage = barbersPagination.getNumber() + 1;
+        int previousPage = currentPage - 1;
+        int nextPage = currentPage + 1;
+        int finalPage = totalPages;
 
-        List<Barber> barberList = barberService.findAll(); //TODO alterar query com limit de 30 / agrupar para fazer paginação
         model.addAttribute("barberList", barberList);
-
-        long countBarbers = barberService.countBarbers();
-        model.addAttribute("countBarber", countBarbers);
-
-        List<Long> countPaginasList = UtilProject.countPaginasList(countBarbers);
-        model.addAttribute("countPaginasList", countPaginasList);
-
-        Long currentPage = pageId;
-        Long previousPage = pageId - 1;
-        Long nextPage = pageId + 1;
-        int finalPage = countPaginasList.size();
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("countBarberTotal", countBarberTotal);
+        model.addAttribute("countBarberPage", countBarberPage);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("previousPage", previousPage);
         model.addAttribute("nextPage", nextPage);
@@ -125,6 +123,7 @@ public class BarberController {
         if(existUsername){
             throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
         }
+        barberRegister.setEnable(true);
         Barber barber = barberService.saveOrUpdate(barberRegister);
         timetableBarbersService.saveTimetableBarber(barber);
         return "redirect:/barbers/barberRegister/" + barberRegister.getId();
@@ -134,17 +133,14 @@ public class BarberController {
     public String barberEditResult(@ModelAttribute Barber barberEdit, @PathVariable("barberId") Long id){
         barberEdit.setId(id);
         barberService.saveOrUpdate(barberEdit);
+        timetableBarbersService.saveTimetableBarber(barberEdit);
         return "redirect:/barbers/barberRegister/" + barberEdit.getId();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "barbers/delete/{barberId}")
     public String deleteBarber(@PathVariable("barberId") Long id) {
 
-        try{
-            barberService.deleteByid(id);
-        } catch (Exception e){
-            throw e; //TODO alterar para mensagem na tela
-        }
+        barberService.deleteByid(id);
 
         return "redirect:/barbers";
     }

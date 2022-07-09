@@ -5,7 +5,7 @@ import project.devsbarber.model.entities.TimeKey;
 
 import java.util.List;
 
-public class BarberScheduleDTO {
+public class BarberScheduleDTO implements Comparable<BarberScheduleDTO>{
 
     private Barber barber;
     private List<TimeKey> timeKeyList;
@@ -24,5 +24,11 @@ public class BarberScheduleDTO {
 
     public void setTimeKeyList(List<TimeKey> timeKeyList) {
         this.timeKeyList = timeKeyList;
+    }
+
+
+    @Override
+    public int compareTo(BarberScheduleDTO o) {
+        return this.barber.getName().compareTo(o.barber.getName());
     }
 }

@@ -46,5 +46,8 @@ public class TimeKeyService {
         return timeKeyRepository.findByInitialAndFinalTime(initHour, finalHours);
     }
 
+    public TimeKey getByTime(LocalTime workEndTime) {
+        return timeKeyRepository.getByTime(workEndTime);
+    }
 }
 

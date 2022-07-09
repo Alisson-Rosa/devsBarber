@@ -38,6 +38,9 @@ public class Barber {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime lunchDuration = LocalTime.of(1,0,0);
 
+    @Column(name="ENABLE", nullable = false)
+    private boolean enable;
+
     public long getId() {
         return id;
     }
@@ -92,5 +95,13 @@ public class Barber {
 
     public void setLunchDuration(LocalTime lunchDuration) {
         this.lunchDuration = lunchDuration;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 }

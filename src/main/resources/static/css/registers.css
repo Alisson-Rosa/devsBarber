@@ -1,3 +1,19 @@
+html, body{
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    color: #566787;
+    font-size: 13px;
+    background-color: #cfcfcf !important;
+}
+
+body{
+    background-color: #cfcfcf !important;
+}
+
 h1 {
     color: blue;
 }
@@ -12,9 +28,6 @@ h1 {
     position: relative;
 }
 
-body{
-    background-color: #cfcfcf !important;
-}
 
 .container{
     display: flex;
@@ -47,11 +60,19 @@ h3{
     font-family: 'Bebas Neue', cursive;
 }
 
+.user-container{
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;;
+}
+
 .footer h3 {
     text-align: left;
 }
 
 .footer {
+    flex-shrink: 0;
     color: #ffffff;
 }
 
@@ -121,4 +142,47 @@ h3{
 select{
      font-size: 15px !important;
      text-align: center;
+}
+
+.clearfix{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #cfcfcf !important
+}
+
+#btn-subimit-not-changePassword{
+    height: 40px;
+    width: 100% !important;
+    margin-bottom: 5% !important;
+    margin-top: 10% !important;
+}
+
+#btn-changePassword{
+    width: 100% !important;;
+    margin-top: 10%;
+    border-radius: 10px;
+    font: inherit;
+    font-weight: 600;
+}
+
+.alert{
+    position: fixed !important;
+    border-radius: 35px!important;
+    left: 10px;
+    top: 10px;
+}
+
+#load-container{
+    position: fixed;
+    width: 8%;
+    bottom: 0;
+    right: 0;
+    margin-right: 5%;
+}
+
+#gif-loading{
+    width: 100%;
+    text-align: center;
 }

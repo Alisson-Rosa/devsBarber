@@ -4,7 +4,7 @@
     <title>BarberShop</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:href="@{/css/internalUser.css}" rel="stylesheet" />
+    <link th:href="@{/css/registers.css}" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -34,6 +34,9 @@
 </head>
 
 <body>
+<div id="load-container">
+    <img id="gif-loading" th:src="@{/gif/loading.gif}" alt="Loading">
+</div>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -52,6 +55,7 @@
                 <li><a href="#" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
                 <li class="active"><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN'">Usuários</a></li>
                 <li><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN'">Barbeiros</a></li>
+                <li><a th:href="@{/cuts}" th:if="${userLogado.role.name} == 'ADMIN'">Cortes</a></li>
             </ul>
             <div th:if="${userLogado.name} != 'anonymousUser'">
                 <ul class="nav navbar-nav navbar-right">
@@ -67,48 +71,73 @@
     <div class="row col-sm-8">
         <div class="col-sm-12 user-form">
             <h3>Edição Usuario</h3>
-            <form class="form-cadastro" th:action="@{/edit/{id}(id = ${userRegister.id})}" method="post">
+            <form class="form-cadastro" th:action="@{/edit/{id}(id = ${userDTO.userId})}" method="post">
 
                 <div class="row row-form">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label th:for="name" class="col-sm-12">Nome:</label>
-                        <input type="text" th:field="*{userRegister.name}" placeholder="Seu Nome" class="form-control" required="required">
+                        <input type="text" th:field="*{userDTO.name}" placeholder="Seu Nome" class="form-control" required="required">
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label th:for="nickname" class="col-sm-12">Usuario:</label>
-                        <input type="text" th:field="*{userRegister.username}" placeholder="usuario" class="form-control" required="required">
+                        <input type="text" th:field="*{userDTO.username}" placeholder="usuario" class="form-control" required="required">
                     </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-6">
-                        <label th:for="password" class="col-sm-12">Senha:</label>
-                        <input type="password" th:field="*{userRegister.password}" placeholder="******" class="form-control" required="required">
-                    </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label th:for="email" class="col-sm-12">Email:</label>
-                        <input type="email" th:field="*{userRegister.email}" class="form-control" required="required">
+                        <input type="email" th:field="*{userDTO.email}" class="form-control" required="required">
                     </div>
                 </div>
 
                 <div class="row row-form">
-                    <div class="col-sm-6">
-                        <label th:for="birthdate" class="col-sm-12">Data de Nascimento:</label>
-                        <input type="date" th:field="*{userRegister.birthdate}" class="form-control" required="required">
-                    </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label th:for="roles" class="col-sm-12">Role:</label>
-                        <select th:field="*{userRole}" class="form-select col-sm-12">
-                            <option th:value="${userRegister.role}" th:text="${userRegister.role.name}"> </option>
-                            <option th:each="roleOption : ${roleList}" th:value="${roleOption}" th:text="${roleOption.name}"></option>
+                        <select th:field="*{userDTO.roleId}" class="form-select col-sm-12">
+                            <option th:value="${userDTO.roleId}" th:text="${userDTO.roleName}"> </option>
+                            <option th:each="roleOption : ${roleList}" th:value="${roleOption.id}" th:text="${roleOption.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label th:for="birthdate" class="col-sm-12">Data de Nascimento:</label>
+                        <input type="date" th:field="*{userDTO.birthdate}" class="form-control" required="required">
+                    </div>
+                    <div class="col-sm-4">
+                        <label th:for="roles" class="col-sm-12">Ativo:</label>
+                        <select th:field="*{userDTO.enable}" class="form-select col-sm-12" required="required">
+                            <option th:if="${userDTO.enable}" th:value="${userDTO.enable}">Não</option>
+                            <option th:if="${!userDTO.enable}" th:value="${userDTO.enable}">Sim</option>
+                            <option th:if="${userDTO.enable}" th:value="${userDTO.enable}">Sim</option>
+                            <option th:if="${!userDTO.enable}" th:value="${userDTO.enable}">Não</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="row btn-cadastrar">
-                    <input type="submit" class="btnSubmit" value="Salvar Alteração" />
+                <div class="row row-form" id="row-changePassword" style="display: none">
+                    <div class="col-sm-4">
+                        <label th:for="password" class="col-sm-12">Senha Atual:</label>
+                        <input type="password" th:field="*{userDTO.password}" placeholder="******" class="form-control" required="required">
+                    </div>
+                    <div class="col-sm-4">
+                        <label th:for="password" class="col-sm-12">Nova Senha:</label>
+                        <input type="password" th:field="*{userDTO.password}" placeholder="******" class="form-control" required="required">
+                    </div>
+                    <div class="col-sm-4">
+                        <label th:for="password" class="col-sm-12">Repita a Senha:</label>
+                        <input type="password" th:field="*{userDTO.password}" placeholder="******" class="form-control" required="required">
+                    </div>
+                </div>
+
+                <div id="div-subimit-not-changePassword" class="row btn-cadastrar col-sm-6" style="margin:0;">
+                    <input id="btn-subimit-not-changePassword" type="submit" class="btnSubmit" value="Salvar Alteração" style="border-radius: 10px"/>
+                </div>
+                <div id="div-subimit-changePassword" class="row btn-cadastrar" style="display: none">
+                    <input type="submit" class="btnSubmit" value="Salvar Alteração" style="border-radius: 10px; height: 40px"/>
                 </div>
             </form>
+            <div id="div-changePassword" class="col-sm-6">
+                <button id="btn-changePassword" type="button" class="btn btn-danger" style="border-radius: 10px"
+                        onclick="changeState('div-changePassword', 'div-subimit-changePassword', 'div-subimit-not-changePassword', 'row-changePassword')"
+                        >Alterar Senha</button>
+            </div>
         </div>
     </div>
 </div>
@@ -148,10 +177,31 @@
         </p>
     </div>
 </div>
+<script>
+    window.addEventListener("load", function() {
+        var fadeContainer = document.querySelector("#load-container");
+        setTimeout(function() {
 
-<script type="text/javascript" src="./js/jquery.js"></script>
-<script type="text/javascript" src="./js/jquery-migrate.js"></script>
-<script type="text/javascript" src="./js/slick.min.js"></script>
-<script type="text/javascript" src="./js/main.js"></script>
+            fadeContainer.style.display = "none";
+
+        }, 1000);
+    });
+    $(document).ready(function () {
+
+        setTimeout(function () {
+            $(".alert").fadeOut("slow", function () {
+                $(this).alert('close');
+            });
+        }, 5000);
+    });
+</script>
+<script>
+    function changeState(changePassword, subimitChange, subimitNotChange, rowChangePassword){
+        document.getElementById(changePassword).style.display = 'none';
+        document.getElementById(subimitChange).style.display = 'block';
+        document.getElementById(subimitNotChange).style.display = 'none';
+        document.getElementById(rowChangePassword).style.display = 'block';
+    }
+</script>
 </body>
 </html>

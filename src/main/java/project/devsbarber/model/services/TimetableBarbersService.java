@@ -10,7 +10,6 @@ import project.devsbarber.model.entities.TimetableBarbers;
 import project.devsbarber.model.repository.TimetableBarbersRepository;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,11 +23,15 @@ public class TimetableBarbersService {
     }
 
     public List<TimetableBarbers> findByBarberNotInTimeKey(Barber barber, List<TimeKey> unavailableHours) {
+        if(unavailableHours.isEmpty()){
+            return timetableBarbersRepository.findByBarberOrderByBarberDescAndTimeKeyDesc(barber);
+        }
+
         return timetableBarbersRepository.findByBarberNotInTimeKeyOrderByBarberDescAndTimeKeyDesc(barber, unavailableHours);
     }
 
-    public TimetableBarbers getByTimeKeyId(Long keyHours) {
-        return timetableBarbersRepository.getByTimeKeyId(keyHours);
+    public TimetableBarbers getByTimeKeyId(Long keyHours, Long barberId) {
+        return timetableBarbersRepository.getByTimeKeyId(keyHours, barberId);
     }
 
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRES_NEW)

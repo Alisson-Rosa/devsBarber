@@ -1,5 +1,6 @@
 package project.devsbarber.model.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import project.devsbarber.model.enums.TypeCut;
 
 import javax.persistence.*;
@@ -23,8 +24,12 @@ public class Cut {
     @Column(name="SIZE", nullable = false)
     private Integer size;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name="TIME", nullable = false)
     private LocalTime time;
+
+    @Column(name="ENABLE", nullable = false)
+    private boolean enable;
 
     public long getId() {
         return id;
@@ -64,5 +69,13 @@ public class Cut {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 }

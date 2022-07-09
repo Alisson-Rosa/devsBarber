@@ -2,7 +2,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: #cfcfcf !important;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
 }
 .user-container{
     margin-top: 5%;
@@ -23,17 +24,17 @@ body {
 }
 .btnSubmit
 {
-    border-radius: 1rem;
-    padding: 1.5%;
-    border: none;
-    cursor: pointer;
+    border-radius: 1rem !important;
+    padding: 1.5% !important;;
+    border: none !important;;
+    cursor: pointer !important;;
 }
 .user-form .btnSubmit{
-    margin-top: 5%;
-    width: 100%;
-    font-weight: 600;
-    color: #fff;
-    background-color: #0062cc;
+    margin-top: 5% !important;;
+    width: 100% !important;;
+    font-weight: 600 !important;;
+    color: #fff !important;;
+    background-color: #0062cc !important;;
 }
 
 .user-form .ForgetPwd{
@@ -41,10 +42,6 @@ body {
     font-weight: 600;
     text-decoration: none;
     width: 100%;
-}
-
-.form-control{
-    margin-bottom: 20px;
 }
 
 .login-voltar{
@@ -56,9 +53,92 @@ body {
     padding-bottom: 10px !important;
 }
 
+.form-group{
+    margin-bottom: 20px;
+}
+
 .link-login{
     color: #ffffff;
     font-weight: 600;
     text-decoration: none;
     width: 100%;
+}
+
+.erroInput{
+    border: 2px solid rgb(207, 53, 53) !important;
+}
+
+#load-container{
+    position: fixed;
+    width: 8%;
+    bottom: 0;
+    right: 0;
+    margin-right: 5%;
+}
+
+#gif-loading{
+    width: 100%;
+    text-align: center;
+}
+
+.form-group label {
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #828CAD;
+}
+
+.form-group input {
+    border: 2px solid #3E445B;
+    border-radius: 5px;
+    outline: 0;
+
+    display: block;
+
+    font-size: 14px;
+
+    width: 100%;
+    padding: 15px;
+}
+
+.form-group.success input {
+    border: 3px solid #4ECA64;
+}
+
+.form-group.error input {
+    border: 3px solid #DB5A5A;
+}
+
+.form-group.error i.img-error {
+    margin-right: 5px;
+    visibility: visible;
+}
+
+.form-group.success i.img-success {
+    visibility: visible;
+}
+
+.form-group.error small{
+    margin-bottom: 20px;
+    color: #DB5A5A;
+    visibility: visible;
+}
+
+.form-group i {
+    position: absolute;
+    right: 30%;
+    visibility: hidden;
+}
+
+.form-group small {
+    visibility: hidden;
+    margin-top: 5px;
+    font-size: 14px;
+
+}
+
+.alert{
+    position: fixed !important;
+    border-radius: 35px!important;
+    left: 10px;
+    top: 10px;
 }
