@@ -228,6 +228,12 @@ table.table .avatar {
     height: 100% !important;;
 }
 
+.container-scheduleReport{
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
 #row-title{
     width: 100% !important;
     margin: 0 !important;
