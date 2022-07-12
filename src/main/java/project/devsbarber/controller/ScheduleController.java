@@ -46,7 +46,7 @@ public class ScheduleController {
     public String scheduleForm(final Model model) {
 
         User user = userService.getUserLogado();
-        model.addAttribute("user",user);
+        model.addAttribute("userLogado",user);
 
         List <Cut> cutList = cutService.findAll();
         model.addAttribute("cutList", cutList);
@@ -64,7 +64,7 @@ public class ScheduleController {
     public String barberSearch(@ModelAttribute ScheduleDTO scheduleDTO, final BindingResult bindingResult, final Model model) {
 
         User user = userService.getUserLogado();
-        model.addAttribute("user",user);
+        model.addAttribute("userLogado",user);
 
         Long cutId = scheduleDTO.getCutId();
         Cut cut = cutService.get(cutId);
@@ -113,7 +113,7 @@ public class ScheduleController {
     public String barberSaveSchedule(@ModelAttribute ScheduleDTO scheduleDTO, final BindingResult bindingResult, final Model model) {
 
         User user = userService.getUserLogado();
-        model.addAttribute("user",user);
+        model.addAttribute("userLogado",user);
 
         Long cutId = scheduleDTO.getCutId();
         Cut cut = cutService.get(cutId);
@@ -138,7 +138,7 @@ public class ScheduleController {
     @RequestMapping(method = RequestMethod.POST, value = "/confirSaveSchedule")
     public String confirmSaveSchedule(@ModelAttribute ScheduleDTO scheduleDTO, final BindingResult bindingResult, final Model model){
         User user = userService.getUserLogado();
-        model.addAttribute("user",user);
+        model.addAttribute("userLogado",user);
 
         if(!scheduleDTO.isConfirm()){
             return barberSearch(scheduleDTO, bindingResult, model);

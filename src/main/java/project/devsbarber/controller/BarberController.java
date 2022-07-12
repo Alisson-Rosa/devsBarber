@@ -149,7 +149,7 @@ public class BarberController {
     public String barbersTimeTables(final Model model, ScheduleDTO scheduleDTO) {
 
         User user = userService.getUserLogado();
-        model.addAttribute("user",user);
+        model.addAttribute("userLogado",user);
 
         LocalDate date = scheduleDTO.getDate();
         if(date == null){

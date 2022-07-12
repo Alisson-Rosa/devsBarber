@@ -10,7 +10,7 @@ public enum TypeCut {
     CABELO("Cabelo"),
     BIGODE("Bigode"),
     SOBRANCELHA("Sobrancelha"),
-    CABELOBARBABIGODE("Cabelo, Barbe e Bigode"),
+    CABELOBARBABIGODE("Cabelo, Barba e Bigode"),
     PACOTECOMPLETO("Pacote Completo");
 
     private final String typeCutName;
