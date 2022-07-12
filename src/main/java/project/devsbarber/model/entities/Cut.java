@@ -24,7 +24,7 @@ public class Cut {
     @Column(name="SIZE", nullable = false)
     private Integer size;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     @Column(name="TIME", nullable = false)
     private LocalTime time;
 

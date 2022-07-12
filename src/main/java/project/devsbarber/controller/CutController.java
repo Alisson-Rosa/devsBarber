@@ -68,7 +68,7 @@ public class CutController {
         Cut cutRegister = new Cut();
         model.addAttribute("cutRegister", cutRegister);
 
-        TypeCut[] typeCuts = TypeCut.values();
+        TypeCut[] typeCuts = TypeCut.enumTypeCutAll();
         model.addAttribute("typeCuts", typeCuts);
 
         List<LocalTime> timeCutList = new ArrayList<>();
@@ -91,7 +91,7 @@ public class CutController {
         Cut cutRegister = cutService.get(id);
         model.addAttribute("cutRegister", cutRegister);
 
-        TypeCut[] typeCuts = TypeCut.values();
+        TypeCut[] typeCuts = TypeCut.enumTypeCutAll();
         model.addAttribute("typeCuts", typeCuts);
 
         List<LocalTime> timeCutList = new ArrayList<>();
@@ -108,11 +108,12 @@ public class CutController {
     @RequestMapping(method = RequestMethod.POST, value = "cuts/cutRegister/createCut")
     public String createCut(@ModelAttribute Cut cutRegister) throws Exception {
         TypeCut typeCut = cutRegister.getTypeCut();
-        boolean existUsername = cutService.existTypeCut(typeCut);
-        if(existUsername){
+        boolean existTypeCut = cutService.existTypeCut(typeCut);
+        if(existTypeCut){
             throw new Exception("Tipo de corte já cadastrado!"); //TODO Alterar para mensagem na tela
         }
-        Cut cut = cutService.saveCutRegister(cutRegister);
+        cutRegister.setEnable(true);
+        cutService.saveCutRegister(cutRegister);
         return "redirect:/cuts/cutRegister/" + cutRegister.getId();
     }
 

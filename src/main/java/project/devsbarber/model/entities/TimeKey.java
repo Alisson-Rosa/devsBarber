@@ -17,7 +17,7 @@ public class TimeKey {
     private long key;
 
     @Column(name = "TIME", nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime time;
 
     public long getKey() {

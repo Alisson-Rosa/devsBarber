@@ -22,4 +22,7 @@ public interface TimeKeyRepository extends CrudRepository<TimeKey, Long> {
 
     @Query(value = "select tk from TimeKey tk where tk.time = :time ")
     TimeKey getByTime(@Param("time") LocalTime workEndTime);
+
+    @Query(value = "select tk from TimeKey tk where tk.key = :key")
+    TimeKey getByKey(@Param("key") Long keyTime);
 }

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "SCHEDULE", uniqueConstraints = @UniqueConstraint(columnNames ={"BARBER_ID", "DATE", "TIMETABLE_BARBERS_ID"}))
+@Table(name = "SCHEDULE", uniqueConstraints = @UniqueConstraint(columnNames ={"BARBER_ID", "DATE", "TIMETABLE_BARBERS_ID", "TIME" }))
 public class Schedule {
 
     @Id
@@ -18,6 +18,10 @@ public class Schedule {
     @Column(name = "DATE", nullable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate date;
+
+    @DateTimeFormat(pattern = "HH:mm")
+    @Column(name="TIME", nullable = false)
+    private LocalTime time;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="CLIENT_ID", nullable = false)
@@ -81,5 +85,13 @@ public class Schedule {
 
     public void setTimetableBarber(TimetableBarbers timetableBarber) {
         this.timetableBarber = timetableBarber;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 }

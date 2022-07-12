@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.devsbarber.model.dto.UserRegisterDTO;
@@ -19,6 +20,8 @@ public class UserService {
 
     @Autowired private UserRepository userRepository;
     @Autowired private RoleService roleService;
+
+    @Autowired private BCryptPasswordEncoder passwordEncoder;
 
     public User getUserLogado() {
 
@@ -120,5 +123,11 @@ public class UserService {
 
         saveOrUpdate(user);
         return user;
+    }
+
+    public boolean validatePassword(Long userId, String password){
+        User user = getUser(userId);
+        String passwordUser = user.getPassword();
+        return passwordEncoder.matches(password, passwordUser);
     }
 }

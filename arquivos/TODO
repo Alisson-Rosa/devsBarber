@@ -1,0 +1,12 @@
+Pendentes:
+- Criar tela de edição para o usuario
+- Alterar imagem do index
+- Alterar visualização de valor (Usar modelo feito no Criptografica CNH)
+
+Finalizado:
+- Testar filtros na tela de relatório de agendas (Testar filtros e paginação com filtro statico) - FINALIZADO
+- Criar tela para verificar todos os horários agendados de todos barbeiros (Mesmo front do schedule.html porém com filtro de data
+e mostrando todos os horários agendados sem validações extras
+- Criar tela para usuario ver seus horário (datatable da tabela agenda com filtro de usuario e order by data desc)
+- Alterar visualização de data (tentar usar no html #temporals.format(localDateTime, 'dd-MM-yyyy HH:mm') )
+- Incluir tabela de totais no relatório

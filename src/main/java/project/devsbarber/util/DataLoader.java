@@ -19,13 +19,13 @@ import java.util.List;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    @Autowired UserRepository userRepository;
-    @Autowired RoleRepository roleRepository;
-    @Autowired TimeKeyRepository timeKeyRepository;
-    @Autowired BarberRepository barberRepository;
-    @Autowired CutRepository cutRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private RoleRepository roleRepository;
+    @Autowired private TimeKeyRepository timeKeyRepository;
+    @Autowired private BarberRepository barberRepository;
+    @Autowired private CutRepository cutRepository;
 
-    @Autowired TimetableBarbersService timetableBarbersService;
+    @Autowired private TimetableBarbersService timetableBarbersService;
     @Autowired private BCryptPasswordEncoder passwordEncoder;
 
 

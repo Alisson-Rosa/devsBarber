@@ -23,19 +23,19 @@ public class Barber {
     private EnumDays dayOff;
 
     @Column(name = "WORK_START_TIME", nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime workStartTime;
 
     @Column(name = "WORK_END_TIME", nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime workEndTime;
 
     @Column(name = "LUNCH_TIME", nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime lunchTime = LocalTime.of(12,0,0);
 
     @Column(name = "LUNCH_DURATION", nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime lunchDuration = LocalTime.of(1,0,0);
 
     @Column(name="ENABLE", nullable = false)

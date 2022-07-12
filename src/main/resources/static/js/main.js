@@ -101,6 +101,20 @@ function validatorPassword(input){
     }
 }
 
+
+function validatorNewPassword(inputNewPassword, inputRepeat){
+    var newPassword = document.getElementById(inputNewPassword);
+    var repeatPassword = document.getElementById(inputRepeat);
+
+    if(newPassword.value === repeatPassword.value){
+        setSuccessFor(newPassword);
+        setSuccessFor(repeatPassword);
+    } else {
+        setErrorFor(newPassword, 'As senhas devem ser iguais!')
+        setErrorFor(repeatPassword, 'As senhas devem ser iguais!')
+    }
+}
+
 function checkInputs(ids, submit) {
     var result = true;
     ids.forEach(function (ids){

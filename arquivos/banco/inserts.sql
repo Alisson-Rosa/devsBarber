@@ -136,14 +136,19 @@ insert into timetable_barbers (barber_id, time_key_id) values (1,71);
 insert into timetable_barbers (barber_id, time_key_id) values (1,72);
 insert into timetable_barbers (barber_id, time_key_id) values (1,73);
 
-
 --schedule
-insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id)
-VALUES ('2022-07-03', 1, 2, 1, 2);
-insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id)
-VALUES ('2022-07-03', 1, 2, 1, 3);
-insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id)
-VALUES ('2022-07-03', 1, 2, 1, 4);
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id, time)
+VALUES ('03-07-2022', 1, 2, 1, 2, '16:30:00');
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id, time)
+VALUES ('03-07-2022', 1, 2, 1, 3, '16:30:00');
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id, time)
+VALUES ('03-07-2022', 1, 2, 1, 4, '16:30:00');
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id, time)
+VALUES ('03-07-2022', 1, 1, 1, 5, '17:30:00');
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id, time)
+VALUES ('03-07-2022', 1, 1, 1, 6, '17:30:00');
+insert into schedule (date, barber_id, client_id, cut_id, timetable_barbers_id, time)
+VALUES ('03-07-2022', 1, 1, 1, 7, '17:30:00');
 
 -- select schedule, tb.id, tk.time, tk.key from schedule inner join timetable_barbers tb on schedule.timetable_barbers_id = tb.id inner join time_key tk on tb.time_key_id = tk.key
 --

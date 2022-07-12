@@ -171,7 +171,11 @@ select{
     position: fixed !important;
     border-radius: 35px!important;
     left: 10px;
-    top: 10px;
+    top: 50px;
+}
+
+.alert-success{
+    background-color: #91d198;
 }
 
 #load-container{
@@ -185,4 +189,41 @@ select{
 #gif-loading{
     width: 100%;
     text-align: center;
+}
+
+
+.form-group.success input {
+    border: 3px solid #4ECA64;
+}
+
+.form-group.error input {
+    border: 3px solid #DB5A5A;
+}
+
+.form-group.error i.img-error {
+    margin-right: 5px;
+    visibility: visible;
+}
+
+.form-group.success i.img-success {
+    visibility: visible;
+}
+
+.form-group.error small{
+    margin-bottom: 20px;
+    color: #DB5A5A;
+    visibility: visible;
+}
+
+.form-group i {
+    position: absolute;
+    right: 30%;
+    visibility: hidden;
+}
+
+.form-group small {
+    visibility: hidden;
+    margin-top: 5px;
+    font-size: 14px;
+
 }

@@ -355,7 +355,11 @@ h1 {
     position: fixed !important;
     border-radius: 35px!important;
     left: 10px;
-    top: 10px;
+    top: 50px;
+}
+
+.alert-success{
+    background-color: #91d198;
 }
 
 #load-container{

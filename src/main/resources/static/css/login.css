@@ -68,13 +68,6 @@ body {
     background-color: #91d198;
 }
 
-.alert{
-    position: fixed !important;
-    border-radius: 35px!important;
-    left: 10px;
-    top: 10px;
-}
-
 #load-container{
     position: fixed;
     width: 8%;

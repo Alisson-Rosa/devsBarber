@@ -10,6 +10,10 @@ h1 {
     height: 33px!important;
 }
 
+.form-group{
+    margin-bottom: 0;
+}
+
 .col-100 {
     width: 100%;
     float: left;
@@ -260,11 +264,19 @@ td{
     justify-content: space-between;
 }
 
+.row-form-barber-search input{
+    text-align: center;
+}
+
 .alert{
     position: fixed !important;
     border-radius: 35px!important;
     left: 10px;
-    top: 10px;
+    top: 50px;
+}
+
+.alert-success{
+    background-color: #91d198;
 }
 
 #load-container{

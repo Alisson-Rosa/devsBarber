@@ -49,5 +49,9 @@ public class TimeKeyService {
     public TimeKey getByTime(LocalTime workEndTime) {
         return timeKeyRepository.getByTime(workEndTime);
     }
+
+    public TimeKey getByKey(Long keyTime) {
+        return timeKeyRepository.getByKey(keyTime);
+    }
 }
 

@@ -156,6 +156,7 @@ public class ScheduleService {
     @Transactional(rollbackFor=Exception.class)
     public Schedule saveSchedule(User client, Cut cut, LocalDate date, Long barberId, Long keyHours) {
         Barber barber = barberService.get(barberId);
+        TimeKey timeKey = timeKeyService.getByKey(keyHours);
 
         Integer size = cut.getSize();
         for(int i=1; i<=size ; i++){
@@ -167,11 +168,20 @@ public class ScheduleService {
             schedule.setDate(date);
             schedule.setBarber(barber);
             schedule.setTimetableBarber(timetable);
+            schedule.setTime(timeKey.getTime());
             scheduleRepository.save(schedule);
             keyHours += 1;
         }
 
         return null;
+    }
+
+    public List<Schedule> findByDate(LocalDate date) {
+        return scheduleRepository.findByDate(date);
+    }
+
+    public List<Schedule> findByBarberAndDate(Barber barber, LocalDate date) {
+        return scheduleRepository.findByBarberAndDate(barber, date);
     }
 }
 

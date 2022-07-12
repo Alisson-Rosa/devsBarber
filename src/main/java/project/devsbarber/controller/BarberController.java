@@ -10,18 +10,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import project.devsbarber.model.entities.Barber;
-import project.devsbarber.model.entities.TimeKey;
-import project.devsbarber.model.entities.User;
+import project.devsbarber.model.dto.BarberScheduleDTO;
+import project.devsbarber.model.dto.ScheduleDTO;
+import project.devsbarber.model.entities.*;
 import project.devsbarber.model.enums.EnumDays;
-import project.devsbarber.model.services.BarberService;
-import project.devsbarber.model.services.TimeKeyService;
-import project.devsbarber.model.services.TimetableBarbersService;
-import project.devsbarber.model.services.UserService;
+import project.devsbarber.model.services.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class BarberController {
@@ -30,6 +28,8 @@ public class BarberController {
     @Autowired private BarberService barberService;
     @Autowired private TimeKeyService timeKeyService;
     @Autowired private TimetableBarbersService timetableBarbersService;
+    @Autowired private ScheduleService scheduleService;
+    @Autowired private TimetableBarbersService timetableBarberService;
 
     @RequestMapping(value = "/barbers")
     public String barberIndex(){
@@ -143,5 +143,57 @@ public class BarberController {
         barberService.deleteByid(id);
 
         return "redirect:/barbers";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/barbersTimeTables")
+    public String barbersTimeTables(final Model model, ScheduleDTO scheduleDTO) {
+
+        User user = userService.getUserLogado();
+        model.addAttribute("user",user);
+
+        LocalDate date = scheduleDTO.getDate();
+        if(date == null){
+            scheduleDTO.setDate(LocalDate.now());
+        }
+
+        model.addAttribute("scheduleDTO", scheduleDTO);
+        List<TimetableBarbers> barberScheduleList = new ArrayList<>();
+        List<Barber> barberAll = barberService.findAll();
+        for (Barber barber : barberAll) {
+            EnumDays dayOff = barber.getDayOff();
+            DayOfWeek dayOfWeek = scheduleDTO.getDate().getDayOfWeek();
+            if(dayOfWeek.equals(dayOff.getDayOfWeek())){
+                TimetableBarbers timetableBarber = new TimetableBarbers();
+                timetableBarber.setBarber(barber);
+                barberScheduleList.add(timetableBarber);
+                continue;
+            }
+
+            List<Schedule> scheduleList = scheduleService.findByBarberAndDate(barber, scheduleDTO.getDate());
+            List<Long> unavailableHours = new ArrayList<>();
+            for (Schedule schedule : scheduleList) {
+                long key = schedule.getTimetableBarber().getTimeKey().getKey();
+                unavailableHours.add(key);
+            }
+            List<TimeKey> timeKeyUnavailable = timeKeyService.findByKey(unavailableHours);
+            List<TimetableBarbers> barberNotInTimeKeyList = timetableBarberService.findByBarberNotInTimeKey(barber, timeKeyUnavailable);
+            barberScheduleList.addAll(barberNotInTimeKeyList);
+        }
+
+        List<BarberScheduleDTO> barberScheduleDTOs = scheduleService.getBarberScheduleDTO(barberScheduleList);
+        Collections.sort(barberScheduleDTOs);
+        model.addAttribute("barberScheduleList", barberScheduleDTOs);
+
+        Long initialBusinessHours = 25L; //TODO Alterar para parametro da tela de configs
+        Long finalBusinessHours = 85L;
+        List<TimeKey> hours = timeKeyService.findByInitialAndFinalKeys(initialBusinessHours, finalBusinessHours);
+        model.addAttribute("hours", hours);
+
+        return "barbersTimeTables"; //TODO criar um atributo cliente pra preenchar quando o usuario for admin
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/timeTablesSearch")
+    public String timeTablesSearch (@ModelAttribute ScheduleDTO scheduleDTO, final Model model){
+        return barbersTimeTables(model, scheduleDTO);
     }
 }

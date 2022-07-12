@@ -1,5 +1,6 @@
 package project.devsbarber.controller;
 
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -94,15 +95,53 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit/{userId}")
-    public String userEditResult(@ModelAttribute UserRegisterDTO userDTO, @PathVariable("userId") Long id){
-        userDTO.setUserId(id);
-        if(userDTO.getBirthdate() == null) {
-            User user = userService.getUser(id);
-            userDTO.setBirthdate(user.getBirthdate());
-        }
+    public String userEditResult(@ModelAttribute UserRegisterDTO userDTO, @PathVariable("userId") Long id, final Model model){
 
-        User user = userService.saveOrUpdateUserDTO(userDTO);
-        return "redirect:/users/userRegister/" + user.getId();
+        try{
+            String newPassword = userDTO.getNewPassword();
+            if(newPassword != null && !newPassword.equals("")){
+                String password = userDTO.getPassword();
+                Long userId = userDTO.getUserId();
+                boolean validatePassword = userService.validatePassword(userId, password);
+
+                if(!validatePassword){
+                    model.addAttribute("erro", "senha incorreta!");
+
+                    User userLogado = userService.getUserLogado();
+                    model.addAttribute("userLogado", userLogado);
+
+                    model.addAttribute("userDTO", userDTO);
+
+                    List<Role> roleList = roleService.findAll();
+                    model.addAttribute("roleList", roleList);
+                    return "InternalUserEdit";
+                }
+
+            }
+
+            userDTO.setUserId(id);
+            if(userDTO.getBirthdate() == null) {
+                User user = userService.getUser(id);
+                userDTO.setBirthdate(user.getBirthdate());
+            }
+
+            userService.saveOrUpdateUserDTO(userDTO);
+
+            model.addAttribute("success", "alteração realizada com sucesso!");
+
+            User userLogado = userService.getUserLogado();
+            model.addAttribute("userLogado", userLogado);
+
+            model.addAttribute("userDTO", userDTO);
+
+            List<Role> roleList = roleService.findAll();
+            model.addAttribute("roleList", roleList);
+            return "InternalUserEdit";
+
+        } catch (Exception e){
+            //TODO criar log
+            return "redirect:/users/userRegister/" + userDTO.getUserId();
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "users/create")
@@ -112,7 +151,7 @@ public class UsersController {
         if(existUsername){
             throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
         }
-
+        userRegisterDTO.setEnable(true);
         User user = userService.saveOrUpdateUserDTO(userRegisterDTO);
         return "redirect:/users/userRegister/" + user.getId();
     }

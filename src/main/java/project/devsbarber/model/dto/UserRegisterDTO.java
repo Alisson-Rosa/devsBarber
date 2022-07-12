@@ -18,6 +18,8 @@ public class UserRegisterDTO {
     private Boolean serviceTerms;
     private Boolean changePassword;
     private String username;
+    private String newPassword;
+    private String repeatNewPassword;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthdate;
 
@@ -127,5 +129,21 @@ public class UserRegisterDTO {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getRepeatNewPassword() {
+        return repeatNewPassword;
+    }
+
+    public void setRepeatNewPassword(String repeatNewPassword) {
+        this.repeatNewPassword = repeatNewPassword;
     }
 }
