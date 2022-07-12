@@ -202,7 +202,7 @@
                     <td th:text="${#temporals.format(schedule.date, 'dd-MM-yyyy')}">Dia</td>
                     <td th:text="${schedule.time.toString}">Horário</td>
                     <td th:text="${schedule.cut.typeCut.typeCutName}">Tipo de Corte</td>
-                    <td th:text="${schedule.cut.value}">Valor de Corte</td>
+                    <td th:text="${#numbers.formatCurrency(schedule.cut.value)}">Valor de Corte</td>
                 </tr>
             </tbody>
         </table>
@@ -232,7 +232,7 @@
                     <td th:text="${totalDTO.totalDates.size}">Dias</td>
                     <td th:text="${totalDTO.totalTimes.size}">Horários</td>
                     <td th:text="${totalDTO.totalTypeCuts.size}">Tipos de Cortes</td>
-                    <td th:text="${totalDTO.totalValue}">Valor</td>
+                    <td th:text="${#numbers.formatCurrency(totalDTO.totalValue)}">Valor</td>
                 </tr>
             </tbody>
         </table>

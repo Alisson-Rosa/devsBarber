@@ -115,7 +115,7 @@
                 <td th:text="${schedule.time.toString}">Horário</td>
                 <td th:text="${schedule.cut.typeCut.typeCutName}">Tipo de Corte</td>
                 <td th:text="${schedule.cut.time}">Tempo do Corte</td>
-                <td th:text="${schedule.cut.value}">Valor de Corte</td>
+                <td th:text="${#numbers.formatCurrency(schedule.cut.value)}">Valor de Corte</td>
             </tr>
             </tbody>
         </table>

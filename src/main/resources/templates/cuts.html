@@ -120,7 +120,7 @@
       <tr th:each="cut : ${cutList}">
         <td class="column-id" th:text="${cut.id}">id</td>
         <td th:text="${cut.typeCut.name}" >Tipo de Corte</td>
-        <td th:text="${cut.value}" >Valor</td>
+        <td th:text="${#numbers.formatCurrency(cut.value)}" >Valor</td>
         <td th:text="${cut.time}">Tempo</td>
         <td th:if="${cut.enable}">Sim</td>
         <td th:if="${!cut.enable}">Não</td>
