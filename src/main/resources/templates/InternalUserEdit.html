@@ -76,7 +76,7 @@
                              aria-labelledby="navbarDropdown" style="background-color: #2c2c2c;">
                             <ul class="nav navbar-nav" style="width: 100%">
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" th:href="@{/userEdit/{id}(id = ${userLogado.id})}">
                                         Editar Perfil
                                     </a>
                                 </li>
@@ -99,7 +99,7 @@
     <div class="row col-sm-8">
         <div class="col-sm-12 user-form">
             <h3>Edição Usuario</h3>
-            <form id="form" class="form-cadastro" th:action="@{/edit/{id}(id = ${userDTO.userId})}" method="post">
+            <form id="form" class="form-cadastro" th:if="${userLogado.role.name} != 'CLIENT'" th:action="@{/edit/{id}(id = ${userDTO.userId})}" method="post">
 
                 <div class="row row-form">
                     <div class="col-sm-3">
@@ -127,7 +127,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row row-form">
                     <div class="col-sm-4">
                         <label th:for="roles" class="col-sm-12">Role:</label>
@@ -150,6 +149,79 @@
                             <option th:if="${userDTO.enable}" th:value="${userDTO.enable}">Sim</option>
                             <option th:if="${!userDTO.enable}" th:value="${userDTO.enable}">Não</option>
                         </select>
+                    </div>
+                </div>
+
+                <div class="row row-form" id="row-changePassword" style="display: none">
+                    <div class="col-sm-4">
+                        <label th:for="password" class="col-sm-12">Senha Atual:</label>
+                        <input id="password" minlength="6" type="password" th:field="*{userDTO.password}" placeholder="******" class="form-control">
+                    </div>
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label th:for="newPassword" class="col-sm-12">Nova Senha:</label>
+                            <input id="newPassword" minlength="6" type="password" th:field="*{userDTO.newPassword}" placeholder="******" class="form-control"
+                                   onchange="validatorNewPassword('newPassword', 'repeatPassword')">
+                            <small>Error Message</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label th:for="repeatPassword" class="col-sm-12">Repita a Senha:</label>
+                            <input id="repeatPassword" minlength="6" type="password" th:field="*{userDTO.repeatNewPassword}" placeholder="******" class="form-control"
+                                   onchange="validatorNewPassword('newPassword', 'repeatPassword')">
+                            <small>Error Message</small>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="div-subimit-not-changePassword" class="row btn-cadastrar col-sm-6" style="margin:0;">
+                    <input id="btn-subimit-not-changePassword" type="submit" class="btnSubmit" value="Salvar Alteração" style="border-radius: 10px"/>
+                </div>
+                <div id="div-subimit-changePassword" class="form-group" style="margin-bottom: 40px; height: 60px; display: none;">
+                    <div class="row btn-cadastrar" style="margin-top: 0">
+                        <input id="btnSubimit" type="submit" class="btnSubmit" value="Salvar Alteração" style="border-radius: 10px; height: 40px"/>
+                        <small>Error Message</small>
+                    </div>
+                </div>
+            </form>
+            <form id="form" class="form-cadastro" th:if="${userLogado.role.name} == 'CLIENT'" th:action="@{/userEdit/result/{id}(id = ${userDTO.userId})}" method="post">
+                <div class="row row-form">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label th:for="name" class="col-sm-12">Nome:</label>
+                            <input id="name" type="text" th:field="*{userDTO.name}" placeholder="Seu Nome" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label th:for="username" class="col-sm-12">Usuario:</label>
+                            <input id="username" type="text" th:field="*{userDTO.username}" placeholder="usuario" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-4">
+                        <div class="form-group" >
+                            <label th:for="email" class="col-sm-12">Email:</label>
+                            <input id="email" type="email" th:field="*{userDTO.email}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label th:for="telephone" class="col-sm-12">Telefone:</label>
+                            <input id="telephone" type="text" th:field="*{userDTO.telephone}" placeholder="(dd) 00000-0000" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label th:for="birthdate" class="col-sm-12">Data de Nascimento:</label>
+                            <input id="birthdate" type="date" th:field="*{userDTO.birthdate}" class="form-control" required="required">
+                        </div>
                     </div>
                 </div>
 

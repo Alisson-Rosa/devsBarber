@@ -98,9 +98,13 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public User saveOrUpdateUserDTO(UserRegisterDTO userDTO) {
-        Long userRoleId = userDTO.getRoleId();
-        Role role = roleService.get(userRoleId);
+    public User saveOrUpdateUserDTO(UserRegisterDTO userDTO, boolean client, boolean isCreate, boolean isChangePassword) {
+
+        Role role = new Role();
+        if(!client){
+            Long userRoleId = userDTO.getRoleId();
+            role = roleService.get(userRoleId);
+        }
 
         Long userId = userDTO.getUserId();
         User user = new User();
@@ -112,14 +116,23 @@ public class UserService {
             user.setId(userId);
         }
 
+        if(isCreate){
+            user.setPassword(userDTO.getPassword());
+        }
+
+        if(isChangePassword){
+            user.setPassword(userDTO.getPassword());
+        }
+
         user.setName(userDTO.getName());
         user.setUsername(userDTO.getUsername());
-        user.setEnable(userDTO.isEnable());
         user.setTelephone(userDTO.getTelephone());
         user.setBirthdate(userDTO.getBirthdate());
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        user.setRole(role);
+        if(!client){
+            user.setEnable(userDTO.isEnable());
+            user.setRole(role);
+        }
 
         saveOrUpdate(user);
         return user;

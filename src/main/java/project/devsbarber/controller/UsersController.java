@@ -99,6 +99,7 @@ public class UsersController {
 
         try{
             String newPassword = userDTO.getNewPassword();
+            boolean chengPassword = false;
             if(newPassword != null && !newPassword.equals("")){
                 String password = userDTO.getPassword();
                 Long userId = userDTO.getUserId();
@@ -116,7 +117,7 @@ public class UsersController {
                     model.addAttribute("roleList", roleList);
                     return "InternalUserEdit";
                 }
-
+                chengPassword = true;
             }
 
             userDTO.setUserId(id);
@@ -125,7 +126,7 @@ public class UsersController {
                 userDTO.setBirthdate(user.getBirthdate());
             }
 
-            userService.saveOrUpdateUserDTO(userDTO);
+            userService.saveOrUpdateUserDTO(userDTO, false, false, chengPassword);
 
             model.addAttribute("success", "alteração realizada com sucesso!");
 
@@ -139,8 +140,16 @@ public class UsersController {
             return "InternalUserEdit";
 
         } catch (Exception e){
-            //TODO criar log
-            return "redirect:/users/userRegister/" + userDTO.getUserId();
+            model.addAttribute("erro", e.getMessage());
+
+            User userLogado = userService.getUserLogado();
+            model.addAttribute("userLogado", userLogado);
+
+            model.addAttribute("userDTO", userDTO);
+
+            List<Role> roleList = roleService.findAll();
+            model.addAttribute("roleList", roleList);
+            return "InternalUserEdit";
         }
     }
 
@@ -152,7 +161,7 @@ public class UsersController {
             throw new Exception("Nome de usuario já cadastrado"); //TODO Alterar para mensagem na tela
         }
         userRegisterDTO.setEnable(true);
-        User user = userService.saveOrUpdateUserDTO(userRegisterDTO);
+        User user = userService.saveOrUpdateUserDTO(userRegisterDTO, false, true, false);
         return "redirect:/users/userRegister/" + user.getId();
     }
 
@@ -166,5 +175,89 @@ public class UsersController {
         }
 
         return "redirect:/users";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/userEdit/{userId}")
+    public String externalUserEdit(final Model model, @PathVariable("userId") Long id) {
+
+        User userLogado = userService.getUserLogado();
+        if(userLogado.getId() != id){
+            return "redirect:/userEdit/" + userLogado.getId();
+        }
+
+        model.addAttribute("userLogado", userLogado);
+
+        UserRegisterDTO userDTO = userService.getUserDTO(id);
+        model.addAttribute("userDTO", userDTO);
+
+        List<Role> roleList = roleService.findAll();
+        model.addAttribute("roleList", roleList);
+
+        return "InternalUserEdit";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/userEdit/result/{userId}")
+    public String externarUserEditResult(@ModelAttribute UserRegisterDTO userDTO, @PathVariable("userId") Long id, final Model model){
+
+        try{
+            String newPassword = userDTO.getNewPassword();
+            boolean changePassword = false;
+            if(newPassword != null && !newPassword.equals("")){
+                String password = userDTO.getPassword();
+                Long userId = userDTO.getUserId();
+                boolean validatePassword = userService.validatePassword(userId, password);
+
+                if(!validatePassword){
+                    model.addAttribute("erro", "senha incorreta!");
+
+                    User userLogado = userService.getUserLogado();
+                    model.addAttribute("userLogado", userLogado);
+
+                    model.addAttribute("userDTO", userDTO);
+
+                    List<Role> roleList = roleService.findAll();
+                    model.addAttribute("roleList", roleList);
+                    return "InternalUserEdit";
+                }
+                changePassword = true;
+            }
+
+            userDTO.setUserId(id);
+            User user = userService.getUser(id);
+
+            if(userDTO.getBirthdate() == null) {
+                userDTO.setBirthdate(user.getBirthdate());
+            }
+
+            Role role = user.getRole();
+            boolean isClient = false;
+            if(role.getName().equals("CLIENT")){
+                isClient = true;
+            }
+            userService.saveOrUpdateUserDTO(userDTO,isClient, false, changePassword);
+
+            model.addAttribute("success", "alteração realizada com sucesso!");
+
+            User userLogado = userService.getUserLogado();
+            model.addAttribute("userLogado", userLogado);
+
+            model.addAttribute("userDTO", userDTO);
+
+            List<Role> roleList = roleService.findAll();
+            model.addAttribute("roleList", roleList);
+            return "InternalUserEdit";
+
+        } catch (Exception e){
+            model.addAttribute("erro", e.getMessage());
+
+            User userLogado = userService.getUserLogado();
+            model.addAttribute("userLogado", userLogado);
+
+            model.addAttribute("userDTO", userDTO);
+
+            List<Role> roleList = roleService.findAll();
+            model.addAttribute("roleList", roleList);
+            return "InternalUserEdit";
+        }
     }
 }

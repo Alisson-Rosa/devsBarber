@@ -112,6 +112,7 @@ public class ScheduleReportService {
 
         CountTotalDTO totalDTO = new CountTotalDTO();
         totalDTO.setTotalDates(dateList);
+        totalDTO.setTotalTimes(timeList);
         totalDTO.setTotalClients(clientList);
         totalDTO.setTotalBarbers(barberList);
         totalDTO.setTotalTypeCuts(typeCutsList);

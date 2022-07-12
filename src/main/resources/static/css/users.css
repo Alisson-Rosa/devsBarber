@@ -374,3 +374,11 @@ h1 {
     width: 100%;
     text-align: center;
 }
+
+.trReport th{
+    text-align: center;
+}
+
+.trReport td{
+    text-align: center;
+}
