@@ -1,0 +1,85 @@
+.col-100 {
+    width: 100%;
+    float: left;
+    position: relative;
+}
+
+.jumbotron{
+    background-image: url("/static/img/barba1.png");
+}
+
+body{
+    background-color: #cfcfcf !important;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    font-family: 'Bebas Neue', cursive;
+    flex-wrap: wrap;
+    align-content: space-between;
+    font-size: 20px;
+}
+
+.fila-2{
+    margin-top: 50px
+}
+
+.col-sm-4 p{
+    margin-bottom: 5px;
+}
+
+.col-sm-4 .btn-primary{
+    width: 200px;
+}
+
+.container img{
+    width: 200px;
+    height: 150px;
+}
+
+.container-fluid{
+    font-family: 'Bebas Neue', cursive;
+}
+
+.footer h3 {
+    text-align: left;
+}
+
+.footer {
+    color: #ffffff;
+}
+
+#foter-first{
+    margin-left: 10%;
+}
+
+.footer-2{
+    color: #c1c1c1;
+}
+.footer p {
+    width: 90%;
+    text-align: left;
+}
+
+.footer-2 p {
+    padding: 10px;
+    margin: 0;
+}
+
+.content {
+    margin: 0 auto;
+    position: relative;
+}
+
+.col-4 {
+    float: left;
+    width: 25%;
+    margin-left: 5%;
+}
+
+#redes-sociais{
+    margin-left: -15px;
+}

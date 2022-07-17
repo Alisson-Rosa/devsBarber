@@ -1,0 +1,229 @@
+html, body{
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    color: #566787;
+    font-size: 13px;
+    background-color: #cfcfcf !important;
+}
+
+body{
+    background-color: #cfcfcf !important;
+}
+
+h1 {
+    color: blue;
+}
+
+.form-select{
+    height: 33px!important;
+}
+
+.col-100 {
+    width: 100%;
+    float: left;
+    position: relative;
+}
+
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: left;
+    flex-wrap: wrap;
+    align-content: space-between;
+    font-size: 20px;
+}
+
+h3{
+    text-align: center;
+}
+
+.col-sm-4 p{
+    margin-bottom: 5px;
+}
+
+.col-sm-4 .btn-primary{
+    width: 200px;
+}
+
+.container img{
+    width: 200px;
+    height: 150px;
+}
+
+.container-fluid{
+    font-family: 'Bebas Neue', cursive;
+}
+
+.user-container{
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;;
+}
+
+.footer h3 {
+    text-align: left;
+}
+
+.footer {
+    flex-shrink: 0;
+    color: #ffffff;
+}
+
+.row label{
+    text-align: center;
+}
+
+#value{
+    text-align: center;
+}
+
+#foter-first{
+    margin-left: 10%;
+}
+
+.footer-2{
+    color: #c1c1c1;
+}
+.footer p {
+    width: 90%;
+    text-align: left;
+}
+
+.footer-2 p {
+    padding: 10px;
+    margin: 0;
+}
+
+.content {
+    margin: 0 auto;
+    position: relative;
+}
+
+.col-4 {
+    float: left;
+    width: 25%;
+    margin-left: 5%;
+}
+
+#redes-sociais{
+    margin-left: -15px;
+}
+
+.btnSubmit{
+    height: 32px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+
+#row-form-1{
+    margin-bottom: 50px !important;
+}
+
+.btn-cadastrar{
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+
+.row-form{
+    margin: 15px;
+}
+
+select{
+     font-size: 15px !important;
+     text-align: center;
+}
+
+.clearfix{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #cfcfcf !important
+}
+
+#btn-subimit-not-changePassword{
+    height: 40px;
+    width: 100% !important;
+    margin-bottom: 5% !important;
+    margin-top: 10% !important;
+}
+
+#btn-changePassword{
+    width: 100% !important;;
+    margin-top: 10%;
+    border-radius: 10px;
+    font: inherit;
+    font-weight: 600;
+}
+
+.alert{
+    position: fixed !important;
+    border-radius: 35px!important;
+    left: 10px;
+    top: 50px;
+}
+
+.alert-success{
+    background-color: #91d198;
+}
+
+#load-container{
+    position: fixed;
+    width: 8%;
+    bottom: 0;
+    right: 0;
+    margin-right: 5%;
+}
+
+#gif-loading{
+    width: 100%;
+    text-align: center;
+}
+
+
+.form-group.success input {
+    border: 3px solid #4ECA64;
+}
+
+.form-group.error input {
+    border: 3px solid #DB5A5A;
+}
+
+.form-group.error i.img-error {
+    margin-right: 5px;
+    visibility: visible;
+}
+
+.form-group.success i.img-success {
+    visibility: visible;
+}
+
+.form-group.error small{
+    margin-bottom: 20px;
+    color: #DB5A5A;
+    visibility: visible;
+}
+
+.form-group i {
+    position: absolute;
+    right: 30%;
+    visibility: hidden;
+}
+
+.form-group small {
+    visibility: hidden;
+    margin-top: 5px;
+    font-size: 14px;
+
+}

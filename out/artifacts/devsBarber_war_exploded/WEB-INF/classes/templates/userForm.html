@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link th:href="@{/css/userForm.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+<div id="load-container">
+    <img id="gif-loading" th:src="@{/gif/loading.gif}" alt="Loading">
+</div>
+<div th:each="error : ${erro}" th:text="${error}" class="alert alert-danger" role="alert"></div>
+<div id="userForm">
+    <div class="container user-container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 user-form">
+                <h3>Faça o seu Cadastro</h3>
+                <form id="form" class="form-cadastro" th:action="@{/uerForm/register}" th:object="${user}" method="post">
+
+                    <div class="form-group">
+                        <label th:for="name" class="col-sm-6">Nome:</label>
+                        <input id="name" type="text" th:field="*{name}" placeholder="Seu Nome"
+                               class="form-control" required="required"
+                               onchange="validatorInpust('name')">
+                        <i class="img-success" ><img th:src="@{img/success-icon.svg}" alt=""></i>
+                        <i class="img-error" ><img th:src="@{img/error-icon.svg}" alt=""></i>
+                        <small>Error Message</small>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="username" class="col-sm-6">Usuario:</label>
+                        <input id="username" type="text" th:field="*{username}"
+                               placeholder="usuario" class="form-control" required="required"
+                               onchange="validatorInpust('username')">
+                        <i class="img-success" ><img th:src="@{img/success-icon.svg}" alt=""></i>
+                        <i class="img-error" ><img th:src="@{img/error-icon.svg}" alt=""></i>
+                        <small>Error Message</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="password" class="col-sm-6">Senha:</label>
+                        <input id="password" type="password" th:field="*{password}" minlength="6"
+                               placeholder="******" class="form-control" required="required"
+                               onchange="validatorInpust('password')">
+                        <i class="img-success" ><img th:src="@{img/success-icon.svg}" alt=""></i>
+                        <i class="img-error" ><img th:src="@{img/error-icon.svg}" alt=""></i>
+                        <small>Error Message</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="email" class="col-sm-6">Email:</label>
+                        <input id="email" type="email" th:field="*{email}" class="form-control" required="required"
+                               onchange="validatorInpust('email')">
+                        <i class="img-success" ><img th:src="@{img/success-icon.svg}" alt=""></i>
+                        <i class="img-error" ><img th:src="@{img/error-icon.svg}" alt=""></i>
+                        <small>Error Message</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="birthdate">Data de Nascimento:</label>
+                        <input id="birthdate" type="date" th:field="*{birthdate}"
+                               class="form-control" required="required"
+                               onchange="validatorInpust('birthdate')">
+                        <i class="img-success" ><img th:src="@{img/success-icon.svg}" alt=""></i>
+                        <i class="img-error" ><img th:src="@{img/error-icon.svg}" alt=""></i>
+                        <small>Error Message</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="telephone">Telefone:</label>
+                        <input type="text" id="telephone" th:field="*{telephone}"
+                               placeholder="(00) 00000-0000" class="form-control" required="required"
+                               onchange="validatorInpust('telephone')">
+                        <i class="img-success" ><img th:src="@{img/success-icon.svg}" alt=""></i>
+                        <i class="img-error" ><img th:src="@{img/error-icon.svg}" alt=""></i>
+                        <small>Error Message</small>
+                    </div>
+
+                    <div class="row">
+                        <label style="width: 54%" th:for="serviceTerms">Concordo com os termos de serviço</label>
+                        <input style="width: 10px; margin-top: 4px;" id="serviceTerms" type="checkbox" th:field="*{serviceTerms}" required="required">
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-bottom: 0; height: 60px;">
+                            <input id="btnSubimit" type="submit" class="btnSubmit" value="Cadastrar" />
+                            <small>Error Message</small>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="login-voltar">
+                    <div class="row">
+                        <div class="col-sm-6" style="margin-left: 10px;">
+                            <a class="link-login" href="/login">
+                                Fazer login?
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const form = document.getElementById('form')
+    form.addEventListener('submit', (e) => {
+        var ids = ['name', 'username', 'password', 'email', 'birthdate', 'telephone']
+
+        const check = checkInputs(ids, 'btnSubimit');
+        if(check){
+            window.location = e.currentTarget.href;
+        } else {
+            e.preventDefault();
+        }
+    })
+</script>
+<script>
+    window.addEventListener("load", function() {
+        var fadeContainer = document.querySelector("#load-container");
+        setTimeout(function() {
+
+            fadeContainer.style.display = "none";
+
+        }, 1000);
+    });
+
+    $(document).ready(function () {
+
+        setTimeout(function () {
+            $(".alert").fadeOut("slow", function () {
+                $(this).alert('close');
+            });
+        }, 5000);
+    });
+</script>
+<script type="text/javascript" th:src="@{js/main.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
