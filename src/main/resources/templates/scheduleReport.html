@@ -51,7 +51,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="/">Início</a></li>
-                <li class="active"><a th:href="@{/schedule}" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
+                <li><a th:href="@{/schedule}" th:if="${userLogado.name} != 'anonymousUser'">Agendar Horário</a></li>
                 <li><a th:href="@{/users}" th:if="${userLogado.role.name} == 'ADMIN' or ${userLogado.role.name} == 'GERENTE' ">Usuários</a></li>
                 <li><a th:href="@{/barbers}" th:if="${userLogado.role.name} == 'ADMIN' or ${userLogado.role.name} == 'GERENTE' ">Barbeiros</a></li>
                 <li><a th:href="@{/cuts}" th:if="${userLogado.role.name} == 'ADMIN' or ${userLogado.role.name} == 'GERENTE' ">Cortes</a></li>
